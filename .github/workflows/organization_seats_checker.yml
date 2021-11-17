@@ -1,0 +1,11 @@
+on: [push]
+
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    name: A job to show seats
+    steps:
+      - name: Show seats
+        uses: actions/OrganizationSeatsChecker@v1
+        with:
+          github_token: ${{ secrets.READ_ORG_TOKEN }}
