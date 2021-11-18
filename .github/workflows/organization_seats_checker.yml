@@ -5,7 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to show seats
     steps:
-      - name: Show seats
-        uses: ./
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Use local my-action
+        uses: ./.github/workflows/organization_seats_checker
         with:
           github_token: ${{ secrets.READ_ORG_TOKEN }}
