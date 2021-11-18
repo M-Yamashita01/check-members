@@ -6,6 +6,6 @@ jobs:
     name: A job to show seats
     steps:
       - name: Show seats
-        uses: M-Yamashita01/OrganizationSeatsChecker@v0.1
+        uses: ./
         with:
           github_token: ${{ secrets.READ_ORG_TOKEN }}
