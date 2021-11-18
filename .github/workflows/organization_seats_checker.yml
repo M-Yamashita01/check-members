@@ -1,4 +1,4 @@
-on: [push]
+on: [pull_request]
 
 jobs:
   job:
@@ -6,6 +6,23 @@ jobs:
     name: A job to show seats
     steps:
       - name: Show seats
+        id: seats
         uses: M-Yamashita01/OrganizationSeatsChecker@v0.1
         with:
           github_token: ${{ secrets.READ_ORG_TOKEN }}
+
+      - name: Post comments
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const output = `Current filled seats and Max seats\n
+              Filled seats: ${{steps.seats.outputs.filled_seats}}\n
+              Max seats: ${{steps.seats.outputs.seats}}\n
+            `
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })

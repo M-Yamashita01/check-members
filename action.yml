@@ -5,6 +5,11 @@ inputs:
   github_token:
     description: 'GitHub Token'
     required: true
+outputs:
+  filled_seats:
+    description: 'Organizations filled seats'
+  seats:
+    description: 'Organizations max seats'
 runs:
   using: 'docker'
   image: 'Dockerfile'
