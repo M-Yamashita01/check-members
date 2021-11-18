@@ -15,9 +15,14 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
+            const output = `Current filled seats and Max seats\n
+              Filled seats: ${{steps.seats.outputs.filled_seats}}\n
+              Max seats: ${{steps.seats.outputs.seats}}\n
+            `
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'filled_seats: ${{steps.seats.outputs.filled_seats}}'
+              body: output
             })
