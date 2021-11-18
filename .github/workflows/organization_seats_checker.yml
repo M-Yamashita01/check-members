@@ -5,9 +5,19 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to show seats
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
-      - name: Use local my-action
-        uses: docker://myamashii/organization-seats-checker:organization-seats-checker
+      - name: Show seats
+        id: seats
+        uses: M-Yamashita01/OrganizationSeatsChecker@v0.1
         with:
           github_token: ${{ secrets.READ_ORG_TOKEN }}
+
+      - name: Post comments
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'filled_seats: ${{steps.seats.outputs.filled_seats}}'
+            })
