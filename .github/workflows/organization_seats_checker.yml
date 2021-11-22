@@ -5,6 +5,13 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to show seats
     steps:
+      - uses: actions/checkout@v2
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0
+          bundler-cache: true
+
       - name: Show seats
         id: seats
         uses: M-Yamashita01/OrganizationSeatsChecker@v0.1
