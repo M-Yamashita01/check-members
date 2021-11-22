@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'octokit'
 
 access_token = ENV['INPUT_GITHUB_TOKEN']

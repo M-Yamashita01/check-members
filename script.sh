@@ -1,1 +1,1 @@
-ruby lib/index.rb
+bundle exec ruby lib/index.rb
