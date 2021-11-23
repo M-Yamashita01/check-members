@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 require 'octokit'
+require 'logger'
 
+logger = Logger.new(STDOUT)
 access_token = ENV['INPUT_GITHUB_TOKEN']
 
 begin
@@ -14,6 +16,8 @@ begin
   puts "::set-output name=filled_seats::#{filled_seats}"
   puts "::set-output name=seats::#{seats}"
 rescue => e
-  puts '[ERROR] This actions is finished with error.'
-  puts e.backtrace
+  logger.error('This actions is finished with error.')
+  logger.error(e.class)
+  logger.error(e.message)
+  logger.error(e.backtrace.join("\n"))
 end
