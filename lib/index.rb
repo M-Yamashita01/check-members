@@ -9,6 +9,7 @@ access_token = ENV['INPUT_GITHUB_TOKEN']
 begin
   client = Octokit::Client.new(access_token: access_token)
   organization = client.org('my-organization-sandbox')
+  logger.info("organization: #{organization.inspect}")
   org_plan = organization[:plan]
   filled_seats = org_plan['filled_seats']
   seats = org_plan['seats']
