@@ -1,10 +1,6 @@
 # action.yml
 name: 'Show members count'
 description: 'Show members count in GitHub Organization and members in terraform files'
-inputs:
-  github_token:
-    description: 'GitHub Token'
-    required: true
 outputs:
   filled_seats:
     description: 'Organizations filled seats'

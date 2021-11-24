@@ -15,8 +15,8 @@ jobs:
       - name: Show seats
         id: seats
         uses: ./
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          INPUT_GITHUB_TOKEN: ${{ secrets.READ_ORG_TOKEN }}
 
       - name: Post comments
         uses: actions/github-script@v5
