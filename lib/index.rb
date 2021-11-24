@@ -11,8 +11,10 @@ begin
   organization = client.org('my-organization-sandbox')
   logger.info("organization: #{organization.inspect}")
   org_plan = organization[:plan]
-  filled_seats = org_plan['filled_seats']
-  seats = org_plan['seats']
+  filled_seats = org_plan[:filled_seats]
+  seats = org_plan[:seats]
+  logger.info("filled_seats:#{filled_seats}")
+  logger.info("seats:#{seats}")
 
   puts "::set-output name=filled_seats::#{filled_seats}"
   puts "::set-output name=seats::#{seats}"
