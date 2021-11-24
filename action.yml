@@ -1,15 +1,13 @@
 # action.yml
-name: 'Hello World'
-description: 'Greet someone and record the time'
-inputs:
-  github_token:
-    description: 'GitHub Token'
-    required: true
+name: 'Show members count'
+description: 'Show members count in GitHub Organization and members in terraform files'
 outputs:
   filled_seats:
     description: 'Organizations filled seats'
   seats:
     description: 'Organizations max seats'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: 'composite'
+  steps:
+    - run: $GITHUB_ACTION_PATH/script.sh
+      shell: sh

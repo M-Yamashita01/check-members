@@ -5,11 +5,18 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to show seats
     steps:
+      - uses: actions/checkout@v2
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+          bundler-cache: true
+
       - name: Show seats
         id: seats
-        uses: M-Yamashita01/OrganizationSeatsChecker@v0.1
-        with:
-          github_token: ${{ secrets.READ_ORG_TOKEN }}
+        uses: ./
+        env:
+          INPUT_GITHUB_TOKEN: ${{ secrets.READ_ORG_TOKEN }}
 
       - name: Post comments
         uses: actions/github-script@v5
