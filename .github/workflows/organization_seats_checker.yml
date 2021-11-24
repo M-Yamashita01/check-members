@@ -14,9 +14,9 @@ jobs:
 
       - name: Show seats
         id: seats
-        uses: M-Yamashita01/OrganizationSeatsChecker@v0.1
+        uses: ./
         with:
-          github_token: ${{ secrets.READ_ORG_TOKEN }}
+          org_token: ${{ secrets.READ_ORG_TOKEN }}
 
       - name: Post comments
         uses: actions/github-script@v5
