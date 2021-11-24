@@ -4,7 +4,7 @@ require 'octokit'
 require 'logger'
 
 logger = Logger.new(STDOUT)
-access_token = ENV['INPUT_ORG_TOKEN']
+access_token = ENV['INPUT_GITHUB_TOKEN']
 
 begin
   client = Octokit::Client.new(access_token: access_token)

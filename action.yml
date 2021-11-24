@@ -2,7 +2,7 @@
 name: 'Show members count'
 description: 'Show members count in GitHub Organization and members in terraform files'
 inputs:
-  org_token:
+  github_token:
     description: 'GitHub Token'
     required: true
 outputs:
