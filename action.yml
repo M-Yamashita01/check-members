@@ -4,10 +4,13 @@ description: 'Show members count in GitHub Organization and members in terraform
 outputs:
   filled_seats:
     description: 'Organizations filled seats'
+    value: ${{ steps.member-counter.outputs.filled_seats }}
   seats:
     description: 'Organizations max seats'
+    value: ${{ steps.member-counter.outputs.seats }}
 runs:
   using: 'composite'
   steps:
-    - run: $GITHUB_ACTION_PATH/script.sh
+    - id: member-counter
+      run: $GITHUB_ACTION_PATH/script.sh
       shell: sh
