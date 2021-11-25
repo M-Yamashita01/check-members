@@ -7,7 +7,7 @@ require_relative 'organization_member'
 
 logger = Logger.new(STDOUT)
 
-access_token = ENV['INPUT_GITHUB_TOKEN']
+access_token = ENV['GITHUB_PERSONAL_ACCESS_TOKEN']
 membership_file_path = ENV['MEMBERSHIP_FILE_PATH']
 repository_collaborator_file_path = ENV['REPOSITORY_COLLABORATOR_FILE_PATH']
 

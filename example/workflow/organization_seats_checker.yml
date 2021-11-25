@@ -16,7 +16,7 @@ jobs:
         id: seats
         uses: M-Yamashita01/organization-seats-checker@v1
         env:
-          INPUT_GITHUB_TOKEN: ${{ secrets.READ_ORG_TOKEN }}
+          GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.READ_ORG_TOKEN }}
           # Set absolute file path to the terraform file containing the github_membership resources.
           # Example: '${{ github.workspace }}/membership.tf'
           MEMBERSHIP_FILE_PATH: '' 
