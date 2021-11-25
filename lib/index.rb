@@ -2,22 +2,30 @@
 
 require 'octokit'
 require 'logger'
+require_relative 'terraform_reader'
+require_relative 'organization_member'
 
 logger = Logger.new(STDOUT)
+
 access_token = ENV['INPUT_GITHUB_TOKEN']
+membership_file_path = ENV['MEMBERSHIP_FILE_PATH']
+repository_collaborator_file_path = ENV['REPOSITORY_COLLABORATOR_FILE_PATH']
 
 begin
   client = Octokit::Client.new(access_token: access_token)
   organization = client.org('my-organization-sandbox')
-  logger.info("organization: #{organization.inspect}")
   org_plan = organization[:plan]
   filled_seats = org_plan[:filled_seats]
   seats = org_plan[:seats]
-  logger.info("filled_seats:#{filled_seats}")
-  logger.info("seats:#{seats}")
+
+  terraform_reader =
+    TerraformReader.new(membership_file_path: membership_file_path, repository_collaborator_file_path: repository_collaborator_file_path)
+  organization_members = terraform_reader.read_member
+  member_count = organization_members.total_member_count
 
   puts "::set-output name=filled_seats::#{filled_seats}"
   puts "::set-output name=seats::#{seats}"
+  puts "::set-output name=member_count::#{member_count}"
 rescue => e
   logger.error('This actions is finished with error.')
   logger.error(e.class)

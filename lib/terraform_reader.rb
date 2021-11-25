@@ -1,4 +1,4 @@
-require 'organization_member'
+require_relative 'organization_member'
 
 class TerraformReader
   def initialize(membership_file_path:, repository_collaborator_file_path:)

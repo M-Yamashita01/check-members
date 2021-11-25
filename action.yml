@@ -8,6 +8,9 @@ outputs:
   seats:
     description: 'Organizations max seats'
     value: ${{ steps.member-counter.outputs.seats }}
+  member_count:
+    description: 'Member count in terraform files'
+    value: ${{ steps.member-counter.outputs.member_count }}
 runs:
   using: 'composite'
   steps:
