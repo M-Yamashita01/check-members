@@ -14,11 +14,15 @@ jobs:
 
       - name: Show seats
         id: seats
-        uses: ./
+        uses: M-Yamashita01/organization-seats-checker@v1
         env:
           INPUT_GITHUB_TOKEN: ${{ secrets.READ_ORG_TOKEN }}
-          MEMBERSHIP_FILE_PATH: '${{ github.workspace }}/spec/fixtures/membership.tf'
-          REPOSITORY_COLLABORATOR_FILE_PATH: '${{ github.workspace }}/spec/fixtures/repository_collaborator.tf'
+          # Set absolute file path to the terraform file containing the github_membership resources.
+          # Example: '${{ github.workspace }}/membership.tf'
+          MEMBERSHIP_FILE_PATH: '' 
+          # Set absolute file path to the terraform file containing the github_repository_collaborator resources.
+          # Example: '${{ github.workspace }}/repository_collaborator.tf'
+          REPOSITORY_COLLABORATOR_FILE_PATH: '${{ github.workspace }}/repository_collaborator.tf'
 
       - name: Post comments
         uses: actions/github-script@v5
