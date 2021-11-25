@@ -17,6 +17,8 @@ jobs:
         uses: ./
         env:
           INPUT_GITHUB_TOKEN: ${{ secrets.READ_ORG_TOKEN }}
+          MEMBERSHIP_FILE_PATH: '${{ github.workspace }}/spec/fixtures/membership.tf'
+          REPOSITORY_COLLABORATOR_FILE_PATH: '${{ github.workspace }}/spec/fixtures/repository_collaborator.tf'
 
       - name: Post comments
         uses: actions/github-script@v5
@@ -25,6 +27,7 @@ jobs:
             const output = `Current filled seats and Max seats\n
               Filled seats: ${{steps.seats.outputs.filled_seats}}\n
               Max seats: ${{steps.seats.outputs.seats}}\n
+              Member count: ${{steps.seats.outputs.member_count}}\n
             `
 
             github.rest.issues.createComment({
