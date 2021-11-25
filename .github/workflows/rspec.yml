@@ -1,0 +1,17 @@
+on: [pull_request]
+
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    name: Run spec
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+          bundler-cache: true
+
+      - name: Test with RSpec
+        run: |
+          bundle exec rspec
