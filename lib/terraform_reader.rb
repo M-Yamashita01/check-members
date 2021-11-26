@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'organization_member'
 
 class TerraformReader
@@ -20,7 +22,7 @@ class TerraformReader
     organization_members = []
     file.each do |line|
       splits = line.split(' ')
-      # ["username", "=", "\"SomeUser\""]の場合を考える
+      # Consider the case of ["Username", "=", "\"Someuser\""]
       organization_members << splits[2] if splits.include?('username')
     end
 

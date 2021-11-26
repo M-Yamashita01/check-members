@@ -14,7 +14,8 @@ config_validator =
   ConfigValidator.new(
     access_token: access_token,
     membership_file_path: membership_file_path,
-    repository_collaborator_file_path: repository_collaborator_file_path)
+    repository_collaborator_file_path: repository_collaborator_file_path
+  )
 if config_validator.validate?
   logger.error('environment variable is invalid.')
   return
@@ -28,16 +29,18 @@ begin
   seats = org_plan[:seats]
 
   terraform_reader =
-    TerraformReader.new(membership_file_path: membership_file_path, repository_collaborator_file_path: repository_collaborator_file_path)
+    TerraformReader.new(
+      membership_file_path: membership_file_path,
+      repository_collaborator_file_path: repository_collaborator_file_path
+    )
   organization_members = terraform_reader.read_member
   member_count = organization_members.total_member_count
 
   puts "::set-output name=filled_seats::#{filled_seats}"
   puts "::set-output name=seats::#{seats}"
   puts "::set-output name=member_count::#{member_count}"
-rescue => e
+rescue StandardError => e
   logger.error('This actions is finished with error.')
-  logger.error(e.class)
   logger.error(e.message)
   logger.error(e.backtrace.join("\n"))
 end
