@@ -10,6 +10,15 @@ logger = Logger.new(STDOUT)
 access_token = ENV['GITHUB_PERSONAL_ACCESS_TOKEN']
 membership_file_path = ENV['MEMBERSHIP_FILE_PATH']
 repository_collaborator_file_path = ENV['REPOSITORY_COLLABORATOR_FILE_PATH']
+config_validator =
+  ConfigValidator.new(
+    access_token: access_token,
+    membership_file_path: membership_file_path,
+    repository_collaborator_file_path: repository_collaborator_file_path)
+if config_validator.validate?
+  logger.error('environment variable is invalid.')
+  return
+end
 
 begin
   client = Octokit::Client.new(access_token: access_token)
