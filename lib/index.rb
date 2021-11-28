@@ -4,6 +4,7 @@ require 'octokit'
 require 'logger'
 require_relative 'terraform_reader'
 require_relative 'organization_member'
+require_relative 'github_organization'
 
 logger = Logger.new(STDOUT)
 
@@ -22,11 +23,11 @@ if config_validator.validate?
 end
 
 begin
-  client = Octokit::Client.new(access_token: access_token)
-  organization = client.org('my-organization-sandbox')
-  org_plan = organization[:plan]
-  filled_seats = org_plan[:filled_seats]
-  seats = org_plan[:seats]
+  github_organization =
+    GitHubOrganization.new(access_token: access_token, organization_name: 'my-organization-sandbox')
+  seats = github_organization.seats
+  filled_seats = seats[:filled_seats]
+  max_seats = seats[:max_seats]
 
   terraform_reader =
     TerraformReader.new(
@@ -37,7 +38,7 @@ begin
   member_count = organization_members.total_member_count
 
   puts "::set-output name=filled_seats::#{filled_seats}"
-  puts "::set-output name=seats::#{seats}"
+  puts "::set-output name=seats::#{max_seats}"
   puts "::set-output name=member_count::#{member_count}"
 rescue StandardError => e
   logger.error('This actions is finished with error.')
