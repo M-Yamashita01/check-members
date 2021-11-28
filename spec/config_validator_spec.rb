@@ -21,10 +21,6 @@ RSpec.describe ConfigValidator do
     subject { config_validator.validate }
 
     context 'All environment variables are valid.' do
-      let(:access_token) { 'Sample Access Token' }
-      let(:membership_file_path) { "#{__dir__}/fixtures/membership.tf" }
-      let(:repository_collaborator_file_path) { "#{__dir__}/fixtures/repository_collaborator.tf" }
-
       it { expect(config_validator.validate?).to be_truthy }
     end
 
@@ -54,6 +50,12 @@ RSpec.describe ConfigValidator do
 
     context 'Organization Name is empty' do
       let(:organization_name) { '' }
+
+      it { expect(config_validator.validate?).to be_falsey }
+    end
+
+    context 'Organization Name is nil' do
+      let(:organization_name) { nil }
 
       it { expect(config_validator.validate?).to be_falsey }
     end
