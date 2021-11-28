@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OrganizationMembers
   def initialize(memberships:, repository_collaborators:)
     @memberships = memberships
