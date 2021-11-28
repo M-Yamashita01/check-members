@@ -13,6 +13,7 @@ class OrganizationSeatsChecker
     @access_token = ENV['GITHUB_PERSONAL_ACCESS_TOKEN']
     @membership_file_path = ENV['MEMBERSHIP_FILE_PATH']
     @repository_collaborator_file_path = ENV['REPOSITORY_COLLABORATOR_FILE_PATH']
+    @organization_name = ENV['ORGANIZATION_NAME']
   end
 
   def run
@@ -20,7 +21,8 @@ class OrganizationSeatsChecker
       ConfigValidator.new(
         access_token: @access_token,
         membership_file_path: @membership_file_path,
-        repository_collaborator_file_path: @repository_collaborator_file_path
+        repository_collaborator_file_path: @repository_collaborator_file_path,
+        organization_name: @organization_name
       )
     unless config_validator.validate?
       logger.error('environment variable is invalid.')
@@ -46,7 +48,7 @@ class OrganizationSeatsChecker
 
   def github_organization_seats
     github_organization =
-      GitHubOrganization.new(access_token: @access_token, organization_name: 'my-organization-sandbox')
+      GitHubOrganization.new(access_token: @access_token, organization_name: @organization_name)
     github_organization.seats
   end
 

@@ -23,6 +23,7 @@ jobs:
           # Set absolute file path to the terraform file containing the github_repository_collaborator resources.
           # Example: '${{ github.workspace }}/repository_collaborator.tf'
           REPOSITORY_COLLABORATOR_FILE_PATH: '${{ github.workspace }}/repository_collaborator.tf'
+          ORGANIZATION_NAME: ''
 
       - name: Post comments
         uses: actions/github-script@v5
