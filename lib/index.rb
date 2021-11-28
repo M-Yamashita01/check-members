@@ -6,7 +6,7 @@ require_relative 'terraform_reader'
 require_relative 'organization_member'
 require_relative 'github_organization'
 
-logger = Logger.new(STDOUT)
+logger = Logger.new($stdout)
 
 access_token = ENV['GITHUB_PERSONAL_ACCESS_TOKEN']
 membership_file_path = ENV['MEMBERSHIP_FILE_PATH']

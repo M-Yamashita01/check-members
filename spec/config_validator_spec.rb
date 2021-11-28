@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe ConfigValidator do
@@ -10,7 +12,8 @@ RSpec.describe ConfigValidator do
       ConfigValidator.new(
         access_token: access_token,
         membership_file_path: membership_file_path,
-        repository_collaborator_file_path: repository_collaborator_file_path)
+        repository_collaborator_file_path: repository_collaborator_file_path
+      )
     end
 
     subject { config_validator.validate }
