@@ -26,7 +26,7 @@ class OrganizationSeatsChecker
       )
     unless config_validator.validate?
       logger.error('environment variable is invalid.')
-      return
+      exit(false)
     end
 
     seats = github_organization_seats
@@ -38,10 +38,14 @@ class OrganizationSeatsChecker
     puts "::set-output name=filled_seats::#{filled_seats}"
     puts "::set-output name=seats::#{max_seats}"
     puts "::set-output name=member_count::#{member_count}"
+
+    exit
   rescue StandardError => e
     logger.error('This actions is finished with error.')
     logger.error(e.message)
     logger.error(e.backtrace.join("\n"))
+
+    exit(false)
   end
 
   private
