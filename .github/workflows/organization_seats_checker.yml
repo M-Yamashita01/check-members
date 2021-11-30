@@ -29,11 +29,17 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-            const output = `Current filled seats and Max seats\n
-              Filled seats: ${{steps.seats.outputs.filled_seats}}\n
-              Max seats: ${{steps.seats.outputs.seats}}\n
-              Member count: ${{steps.seats.outputs.member_count}}\n
+            var output = `Current seats in organization and members in terraform files.\n
+              ・Seats that memberships used:: ${{steps.seats.outputs.filled_seats}}\n
+              ・Max seats an organization can use: ${{steps.seats.outputs.seats}}\n
+              ・Total number of memberships in terraform files: ${{steps.seats.outputs.member_count}}\n\n
             `
+            const numberOfSeatsInShortage = ${{steps.seats.outputs.member_count}} - ${{steps.seats.outputs.seats}}
+            var additional_message = `There is no shortage of seats.\n`
+            if (numberOfSeatsInShortage > 0) {
+              additional_message = `There are ${numberOfSeatsInShortage} seats missing. Please add seats.\n`
+            }
+            output += additional_message
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
