@@ -10,7 +10,7 @@ RSpec.describe OrganizationSeatsChecker do
       ENV['GITHUB_PERSONAL_ACCESS_TOKEN'] = 'Sample Access Token'
       ENV['MEMBERSHIP_FILE_PATH'] = "#{__dir__}/fixtures/membership.tf"
       ENV['REPOSITORY_COLLABORATOR_FILE_PATH'] = "#{__dir__}/fixtures/repository_collaborator.tf"
-      ENV['ORGANIZATION_NAME'] = 'rganization-test'
+      ENV['ORGANIZATION_NAME'] = 'organization-test'
 
       agent = Sawyer::Agent.new(
         'https://api.github.com',
