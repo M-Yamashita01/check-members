@@ -22,12 +22,12 @@ Required. This file path is an absolute file path to the terraform file containi
 Required. This organization name for which you want to count seats.
 
 ## Outputs
-### filled_seats
+### `filled_seats`
 Seats that memberships used.
-### seats
+### `seats`
 Max seats an organization can use.
 
-### member_count
+### `member_count`
 Total number of memberships in the `github_membership` and `github_repository_collaborator` resources written in the terraform file.
 
 ## Example usage
