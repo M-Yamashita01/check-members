@@ -6,7 +6,7 @@ class OrganizationMembers
     @repository_collaborators = repository_collaborators
   end
 
-  def total_member_count
+  def total_members
     @membership.size + @repository_collaborators.size
   end
 end

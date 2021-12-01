@@ -14,7 +14,7 @@ RSpec.describe TerraformReader do
         )
       organization_member = terraform_reader.read_member
 
-      expect(organization_member.total_member_count).to eq(7)
+      expect(organization_member.total_members).to eq(7)
     end
   end
 end

@@ -33,11 +33,11 @@ class CheckMembersAction
     filled_seats = seats[:filled_seats]
     max_seats = seats[:max_seats]
 
-    member_count = members_in_terraform
+    members_in_terraform = count_members_in_terraform
 
     puts "::set-output name=filled_seats::#{filled_seats}"
     puts "::set-output name=max_seats::#{max_seats}"
-    puts "::set-output name=member_count::#{member_count}"
+    puts "::set-output name=members_in_terraform::#{members_in_terraform}"
 
     exit
   rescue StandardError => e
@@ -56,13 +56,13 @@ class CheckMembersAction
     github_organization.seats
   end
 
-  def members_in_terraform
+  def count_members_in_terraform
     terraform_reader =
       TerraformReader.new(
         membership_file_path: @membership_file_path,
         repository_collaborator_file_path: @repository_collaborator_file_path
       )
     organization_members = terraform_reader.read_member
-    organization_members.total_member_count
+    organization_members.total_members
   end
 end
