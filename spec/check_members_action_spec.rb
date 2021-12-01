@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe OrganizationSeatsChecker do
+RSpec.describe CheckMembersAction do
   subject { described_class.new.run }
 
   describe '#run' do
@@ -10,7 +10,7 @@ RSpec.describe OrganizationSeatsChecker do
       ENV['GITHUB_PERSONAL_ACCESS_TOKEN'] = 'Sample Access Token'
       ENV['MEMBERSHIP_FILE_PATH'] = "#{__dir__}/fixtures/membership.tf"
       ENV['REPOSITORY_COLLABORATOR_FILE_PATH'] = "#{__dir__}/fixtures/repository_collaborator.tf"
-      ENV['ORGANIZATION_NAME'] = 'rganization-test'
+      ENV['ORGANIZATION_NAME'] = 'organization-test'
 
       agent = Sawyer::Agent.new(
         'https://api.github.com',
@@ -23,6 +23,7 @@ RSpec.describe OrganizationSeatsChecker do
 
       resource = Sawyer::Resource.new(agent, hashed_response)
       allow_any_instance_of(Octokit::Client).to receive(:org).and_return(resource)
+      allow_any_instance_of(Kernel).to receive(:exit).and_return(true)
     end
 
     it 'get seats and member counts' do

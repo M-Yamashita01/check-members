@@ -6,7 +6,7 @@ require_relative 'github_organization'
 require_relative 'terraform_reader'
 require_relative 'organization_member'
 
-class OrganizationSeatsChecker
+class CheckMembersAction
   include Logging
 
   def initialize

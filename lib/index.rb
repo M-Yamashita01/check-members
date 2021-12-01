@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'organization_seats_checker'
+require_relative 'check_members_action'
 
-OrganizationSeatsChecker.new.run
+CheckMembersAction.new.run

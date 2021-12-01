@@ -12,7 +12,7 @@ class TerraformReader
     organization_members = extract_members(file_path: @membership_file_path)
     collaborator_members = extract_members(file_path: @repository_collaborator_file_path)
 
-    OrganizationMembers.new(memberships: organization_members, repository_collaborators: collaborator_members)
+    OrganizationMembers.new(membership: organization_members, repository_collaborators: collaborator_members)
   end
 
   private
