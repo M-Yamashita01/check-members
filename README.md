@@ -3,7 +3,7 @@
 This action runs on pull requests to count GitHub organization members and memberships written in terraform files.
 
 ## Examples
-![Example comment made by the action](./example/images/example-github-pr-check.png)
+![Example comment made by the action](./examples/images/example-github-pr-check.png)
 
 ## Environment variables
 
