@@ -29,8 +29,8 @@ RSpec.describe CheckMembersAction do
     it 'get seats and member counts' do
       actual = <<~TEXT
         ::set-output name=filled_seats::4
-        ::set-output name=seats::5
-        ::set-output name=member_count::7
+        ::set-output name=max_seats::5
+        ::set-output name=members_in_terraform::7
       TEXT
 
       expect { subject }.to output(actual).to_stdout
