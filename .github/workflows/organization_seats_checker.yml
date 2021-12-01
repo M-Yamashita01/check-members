@@ -30,7 +30,7 @@ jobs:
         with:
           script: |
             var output = `Current seats in organization and members in terraform files.\n
-              ・Seats that membership used:: ${{steps.seats.outputs.filled_seats}}\n
+              ・Seats that membership used: ${{steps.seats.outputs.filled_seats}}\n
               ・Max seats an organization can use: ${{steps.seats.outputs.seats}}\n
               ・Total number of membership in terraform files: ${{steps.seats.outputs.member_count}}\n\n
             `
