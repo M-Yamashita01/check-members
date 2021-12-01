@@ -1,6 +1,6 @@
 # OrganizationSeatsChecker
 
-This action runs on pull requests to count GitHub organization members and memberships written in terraform files.
+This action runs on pull requests to count GitHub organization members and membership written in terraform files.
 
 ## Examples
 ![Example comment made by the action](./examples/images/example-github-pr-check.png)
@@ -23,12 +23,12 @@ Required. This organization name for which you want to count seats.
 
 ## Outputs
 ### `filled_seats`
-Seats that memberships used.
+Seats that membership used.
 ### `seats`
 Max seats an organization can use.
 
 ### `member_count`
-Total number of memberships in the `github_membership` and `github_repository_collaborator` resources written in the terraform file.
+Total number of membership in the `github_membership` and `github_repository_collaborator` resources written in the terraform file.
 
 ## Example usage
 
@@ -61,9 +61,9 @@ jobs:
         with:
           script: |
             var output = `Current seats in organization and members in terraform files.\n
-              ・Seats that memberships used:: ${{steps.seats_members.outputs.filled_seats}}\n
+              ・Seats that membership used:: ${{steps.seats_members.outputs.filled_seats}}\n
               ・Max seats an organization can use: ${{steps.seats_members.outputs.seats}}\n
-              ・Total number of memberships in terraform files: ${{steps.seats_members.outputs.member_count}}\n\n
+              ・Total number of membership in terraform files: ${{steps.seats_members.outputs.member_count}}\n\n
             `
             const numberOfSeatsInShortage = ${{steps.seats_members.outputs.member_count}} - ${{steps.seats_members.outputs.seats}}
             var additional_message = `There is no shortage of seats.\n`
