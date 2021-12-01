@@ -30,9 +30,9 @@ jobs:
         with:
           script: |
             var output = `Current seats in organization and members in terraform files.\n
-              ・Seats that memberships used:: ${{steps.seats.outputs.filled_seats}}\n
+              ・Seats that membership used: ${{steps.seats.outputs.filled_seats}}\n
               ・Max seats an organization can use: ${{steps.seats.outputs.seats}}\n
-              ・Total number of memberships in terraform files: ${{steps.seats.outputs.member_count}}\n\n
+              ・Total number of membership in terraform files: ${{steps.seats.outputs.member_count}}\n\n
             `
             const numberOfSeatsInShortage = ${{steps.seats.outputs.member_count}} - ${{steps.seats.outputs.seats}}
             var additional_message = `There is no shortage of seats.\n`
