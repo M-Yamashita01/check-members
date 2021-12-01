@@ -24,7 +24,7 @@ Required. This organization name for which you want to count seats.
 ## Outputs
 ### `filled_seats`
 Seats that membership used.
-### `seats`
+### `max_seats`
 Max seats an organization can use.
 
 ### `members_in_terraform`

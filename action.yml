@@ -3,13 +3,13 @@ name: 'Show members count'
 description: 'Show members count in GitHub Organization and members in terraform files'
 outputs:
   filled_seats:
-    description: 'Organizations filled seats'
+    description: 'Seats that membership used.'
     value: ${{ steps.member-counter.outputs.filled_seats }}
   max_seats:
-    description: 'Organizations max seats'
+    description: 'Max seats an organization can use.'
     value: ${{ steps.member-counter.outputs.max_seats }}
   members_in_terraform:
-    description: 'Member count in terraform files'
+    description: 'Total number of membership in the `github_membership` and `github_repository_collaborator` resources written in the terraform file.'
     value: ${{ steps.member-counter.outputs.members_in_terraform }}
 runs:
   using: 'composite'
