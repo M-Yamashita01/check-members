@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe OrganizationSeatsChecker do
+RSpec.describe CheckMembersAction do
   subject { described_class.new.run }
 
   describe '#run' do
