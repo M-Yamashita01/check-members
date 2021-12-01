@@ -23,6 +23,7 @@ RSpec.describe CheckMembersAction do
 
       resource = Sawyer::Resource.new(agent, hashed_response)
       allow_any_instance_of(Octokit::Client).to receive(:org).and_return(resource)
+      allow_any_instance_of(Kernel).to receive(:exit).and_return(true)
     end
 
     it 'get seats and member counts' do
