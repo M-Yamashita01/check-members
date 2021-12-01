@@ -36,7 +36,7 @@ class CheckMembersAction
     member_count = members_in_terraform
 
     puts "::set-output name=filled_seats::#{filled_seats}"
-    puts "::set-output name=seats::#{max_seats}"
+    puts "::set-output name=max_seats::#{max_seats}"
     puts "::set-output name=member_count::#{member_count}"
 
     exit

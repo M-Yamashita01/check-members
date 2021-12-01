@@ -31,7 +31,7 @@ jobs:
           script: |
             const output = `Current filled seats and Max seats\n
               Filled seats: ${{steps.seats.outputs.filled_seats}}\n
-              Max seats: ${{steps.seats.outputs.seats}}\n
+              Max seats: ${{steps.seats.outputs.max_seats}}\n
               Member count: ${{steps.seats.outputs.member_count}}\n
             `
 

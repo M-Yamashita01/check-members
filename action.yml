@@ -5,9 +5,9 @@ outputs:
   filled_seats:
     description: 'Organizations filled seats'
     value: ${{ steps.member-counter.outputs.filled_seats }}
-  seats:
+  max_seats:
     description: 'Organizations max seats'
-    value: ${{ steps.member-counter.outputs.seats }}
+    value: ${{ steps.member-counter.outputs.max_seats }}
   member_count:
     description: 'Member count in terraform files'
     value: ${{ steps.member-counter.outputs.member_count }}
