@@ -1,6 +1,6 @@
 # action.yml
-name: 'Show members count'
-description: 'Show members count in GitHub Organization and members in terraform files'
+name: 'Check Member'
+description: 'This action runs on pull requests to count GitHub organization members and membership written in terraform files.'
 outputs:
   filled_seats:
     description: 'Seats that membership used.'
