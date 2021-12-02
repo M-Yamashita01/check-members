@@ -49,7 +49,7 @@ jobs:
 
       - name: Count seats and members
         id: seats_members
-        uses: M-Yamashita01/check-members@v0.1
+        uses: M-Yamashita01/check-members@v0.2
         env:
           GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           MEMBERSHIP_FILE_PATH: '${{ github.workspace }}/membership.tf' 
