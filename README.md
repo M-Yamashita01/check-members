@@ -7,7 +7,7 @@ This action runs on pull requests to count GitHub organization members and membe
 
 ## Environment variables
 
-### `GITHUB_PERSONAL_ACCESS_TOKEN`
+### `ACCESS_TOKEN`
 Required. This token needs to have `read:org` scope to read organization information by octokit.
 
 See https://docs.github.com/en/rest/reference/orgs#get-an-organization
@@ -51,7 +51,7 @@ jobs:
         id: seats_members
         uses: M-Yamashita01/check-members@v0.1
         env:
-          GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           MEMBERSHIP_FILE_PATH: '${{ github.workspace }}/membership.tf' 
           REPOSITORY_COLLABORATOR_FILE_PATH: '${{ github.workspace }}/repository_collaborator.tf'
           ORGANIZATION_NAME: 'organization_name'
