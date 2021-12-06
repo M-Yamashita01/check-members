@@ -10,7 +10,7 @@ class CheckMembersAction
   include Logging
 
   def initialize
-    @access_token = ENV['GITHUB_PERSONAL_ACCESS_TOKEN']
+    @access_token = ENV['ACCESS_TOKEN']
     @membership_file_path = ENV['MEMBERSHIP_FILE_PATH']
     @repository_collaborator_file_path = ENV['REPOSITORY_COLLABORATOR_FILE_PATH']
     @organization_name = ENV['ORGANIZATION_NAME']

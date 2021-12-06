@@ -7,7 +7,7 @@ RSpec.describe CheckMembersAction do
 
   describe '#run' do
     before do
-      ENV['GITHUB_PERSONAL_ACCESS_TOKEN'] = 'Sample Access Token'
+      ENV['ACCESS_TOKEN'] = 'Sample Access Token'
       ENV['MEMBERSHIP_FILE_PATH'] = "#{__dir__}/fixtures/membership.tf"
       ENV['REPOSITORY_COLLABORATOR_FILE_PATH'] = "#{__dir__}/fixtures/repository_collaborator.tf"
       ENV['ORGANIZATION_NAME'] = 'organization-test'
