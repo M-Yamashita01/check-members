@@ -15,5 +15,5 @@ runs:
   using: 'composite'
   steps:
     - id: member-counter
-      run: $GITHUB_ACTION_PATH/script.sh
+      run: bundle install | $GITHUB_ACTION_PATH/script.sh
       shell: sh
