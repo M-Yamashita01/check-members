@@ -14,7 +14,7 @@ jobs:
 
       - name: Count seats and members
         id: seats_members
-        uses: M-Yamashita01/check-members@v0.2
+        uses: ./
         env:
           ACCESS_TOKEN: ${{ secrets.READ_ORG_TOKEN }}
           # Set absolute file path to the terraform file containing the github_membership resources.
