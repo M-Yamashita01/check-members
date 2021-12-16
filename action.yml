@@ -15,7 +15,11 @@ runs:
   using: 'composite'
   steps:
     - id: member-counter
-      run: $GITHUB_ACTION_PATH/script.sh
+      run: |
+        cd $GITHUB_ACTION_PATH
+        bundle install
+        ./script.sh
+        cd $GITHUB_WORKSPACE
       shell: sh
 branding:
   icon: 'user-check'
