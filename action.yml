@@ -1,5 +1,5 @@
 # action.yml
-name: 'Check Member'
+name: 'Check Members'
 description: 'This action runs on pull requests to count GitHub organization members and membership written in terraform files.'
 outputs:
   filled_seats:
