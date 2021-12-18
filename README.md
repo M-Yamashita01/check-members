@@ -1,4 +1,4 @@
-# Check Member
+# Check Members
 
 This action runs on pull requests to count GitHub organization members and membership written in terraform files.
 
