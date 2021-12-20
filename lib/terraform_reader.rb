@@ -19,7 +19,7 @@ class TerraformReader
   def extract_members(file_path:)
     file = open_file(file_path: file_path)
     organization_members = []
-    lines = except_comment_out_lines(file: file)
+    lines = except_comment_lines(file: file)
     lines.each do |line|
       splits = line.split(' ')
       # Consider the case of ["Username", "=", "\"Someuser\""]
@@ -29,17 +29,29 @@ class TerraformReader
     organization_members.uniq
   end
 
-  def except_comment_out_lines(file:)
+  def except_comment_lines(file:)
     lines = file.readlines
-    start_index = lines.find_index { |line| line.start_with?('/*') }
-    end_index = lines.find_index { |line| line.start_with?('*/') }
+    excepted_multiline_comments_lines = except_multiline_comments(lines: lines)
+    excepted_single_comments(lines: excepted_multiline_comments_lines)
+  end
 
-    if !start_index.nil? && !end_index.nil?
+  def except_multiline_comments(lines:)
+    loop do
+      start_index = lines.find_index { |line| line.start_with?('/*') }
+      break if start_index.nil?
+
+      end_index = lines.find_index { |line| line.start_with?('*/') }
+      end_index = lines.size - 1 if end_index.nil?
+
       (end_index - start_index + 1).times do
         lines.delete_at(start_index)
       end
     end
 
+    lines
+  end
+
+  def excepted_single_comments(lines:)
     lines.reject do |line|
       line.start_with?('#') || line.start_with?('//')
     end
