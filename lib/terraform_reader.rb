@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require_relative 'organization_member'
 
 class TerraformReader
@@ -20,13 +19,30 @@ class TerraformReader
   def extract_members(file_path:)
     file = open_file(file_path: file_path)
     organization_members = []
-    file.each do |line|
+    lines = except_comment_out_lines(file: file)
+    lines.each do |line|
       splits = line.split(' ')
       # Consider the case of ["Username", "=", "\"Someuser\""]
       organization_members << splits[2] if splits.include?('username')
     end
 
     organization_members.uniq
+  end
+
+  def except_comment_out_lines(file:)
+    lines = file.readlines
+    start_index = lines.find_index { |line| line.start_with?('/*') }
+    end_index = lines.find_index { |line| line.start_with?('*/') }
+
+    if !start_index.nil? && !end_index.nil?
+      (end_index - start_index + 1).times do
+        lines.delete_at(start_index)
+      end
+    end
+
+    lines.reject do |line|
+      line.start_with?('#') || line.start_with?('//')
+    end
   end
 
   def open_file(file_path:)
