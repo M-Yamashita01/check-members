@@ -2,8 +2,8 @@
 
 require 'spec_helper'
 
-RSpec.describe TerraformReader do
-  describe '#convert_to_json' do
+RSpec.describe Hcl2hashConversion do
+  describe '#convert_to_hash' do
     context 'when terraform file is converted into json correctly' do
       before do
         hcl2json_outputs =
@@ -13,43 +13,43 @@ RSpec.describe TerraformReader do
                 \"membership_for_some_user1\": [
                   {
                     \"role\": \"member\",
-                    \"username\": \"SomeUser\"
+                    \"username\": \"Membership1\"
                   }
                 ],
                 \"membership_for_some_user2\": [
                   {
                     \"role\": \"member\",
-                    \"username\": \"SomeUser1\"
+                    \"username\": \"Membership2\"
                   }
                 ],
                 \"membership_for_some_user3\": [
                   {
                     \"role\": \"member\",
-                    \"username\": \"SomeUser2\"
+                    \"username\": \"Membership3\"
                   }
                 ],
                 \"membership_for_some_user4\": [
                   {
                     \"role\": \"member\",
-                    \"username\": \"SomeUser2\"
+                    \"username\": \"Membership3\"
                   }
                 ],
                 \"membership_for_some_user5\": [
                   {
                     \"role\": \"member\",
-                    \"username\": \"SomeUser\"
+                    \"username\": \"Membership1\"
                   }
                 ],
                 \"membership_for_some_user6\": [
                   {
                     \"role\": \"member\",
-                    \"username\": \"SomeUser3\"
+                    \"username\": \"Membership4\"
                   }
                 ],
                 \"membership_for_some_user7\": [
                   {
                     \"role\": \"member\",
-                    \"username\": \"SomeUser2\"
+                    \"username\": \"Membership3\"
                   }
                 ]
               }
@@ -65,50 +65,50 @@ RSpec.describe TerraformReader do
               'membership_for_some_user1' => [
                 {
                   'role' => 'member',
-                  'username' => 'SomeUser'
+                  'username' => 'Membership1'
                 }
               ],
               'membership_for_some_user2' => [
                 {
                   'role' => 'member',
-                  'username' => 'SomeUser1'
+                  'username' => 'Membership2'
                 }
               ],
               'membership_for_some_user3' => [
                 {
                   'role' => 'member',
-                  'username' => 'SomeUser2'
+                  'username' => 'Membership3'
                 }
               ],
               'membership_for_some_user4' => [
                 {
                   'role' => 'member',
-                  'username' => 'SomeUser2'
+                  'username' => 'Membership3'
                 }
               ],
               'membership_for_some_user5' => [
                 {
                   'role' => 'member',
-                  'username' => 'SomeUser'
+                  'username' => 'Membership1'
                 }
               ],
               'membership_for_some_user6' => [
                 {
                   'role' => 'member',
-                  'username' => 'SomeUser3'
+                  'username' => 'Membership4'
                 }
               ],
               'membership_for_some_user7' => [
                 {
                   'role' => 'member',
-                  'username' => 'SomeUser2'
+                  'username' => 'Membership3'
                 }
               ]
             }
           }
         }
 
-        actual_json = Hcl2jsonConversion.convert_to_json(terraform_file_path: "#{__dir__}/fixtures/membership.tf")
+        actual_json = Hcl2hashConversion.convert_to_hash(terraform_file_path: "#{__dir__}/fixtures/membership.tf")
         expect(actual_json).to eq(expected_json)
       end
     end
@@ -119,7 +119,7 @@ RSpec.describe TerraformReader do
       end
 
       it 'raise standard exception' do
-        expect { Hcl2jsonConversion.convert_to_json(terraform_file_path: "#{__dir__}/fixtures/membership.tf") }
+        expect { Hcl2hashConversion.convert_to_hash(terraform_file_path: "#{__dir__}/fixtures/membership.tf") }
           .to raise_error(RuntimeError, 'error')
       end
     end

@@ -4,10 +4,10 @@ require 'open3'
 require 'json'
 require_relative 'logging'
 
-class Hcl2jsonConversion
+class Hcl2hashConversion
   include Logging
 
-  def self.convert_to_json(terraform_file_path:)
+  def self.convert_to_hash(terraform_file_path:)
     stdout_str, stderr_str, status = Open3.capture3("hcl2json #{terraform_file_path}")
 
     if !stderr_str.nil? && !stderr_str.empty?
