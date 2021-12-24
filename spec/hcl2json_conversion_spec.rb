@@ -10,27 +10,43 @@ RSpec.describe TerraformReader do
           "{
             \"resource\": {
               \"github_membership\": {
-                \"membership_for_some_user\": [
+                \"membership_for_some_user1\": [
                   {
                     \"role\": \"member\",
                     \"username\": \"SomeUser\"
-                  },
+                  }
+                ],
+                \"membership_for_some_user2\": [
                   {
                     \"role\": \"member\",
                     \"username\": \"SomeUser1\"
-                  },
+                  }
+                ],
+                \"membership_for_some_user3\": [
                   {
                     \"role\": \"member\",
                     \"username\": \"SomeUser2\"
-                  },
+                  }
+                ],
+                \"membership_for_some_user4\": [
+                  {
+                    \"role\": \"member\",
+                    \"username\": \"SomeUser2\"
+                  }
+                ],
+                \"membership_for_some_user5\": [
                   {
                     \"role\": \"member\",
                     \"username\": \"SomeUser\"
-                  },
+                  }
+                ],
+                \"membership_for_some_user6\": [
                   {
                     \"role\": \"member\",
                     \"username\": \"SomeUser3\"
-                  },
+                  }
+                ],
+                \"membership_for_some_user7\": [
                   {
                     \"role\": \"member\",
                     \"username\": \"SomeUser2\"
@@ -46,27 +62,43 @@ RSpec.describe TerraformReader do
         expected_json = {
           'resource' => {
             'github_membership' => {
-              'membership_for_some_user' => [
+              'membership_for_some_user1' => [
                 {
                   'role' => 'member',
                   'username' => 'SomeUser'
-                },
+                }
+              ],
+              'membership_for_some_user2' => [
                 {
                   'role' => 'member',
                   'username' => 'SomeUser1'
-                },
+                }
+              ],
+              'membership_for_some_user3' => [
                 {
                   'role' => 'member',
                   'username' => 'SomeUser2'
-                },
+                }
+              ],
+              'membership_for_some_user4' => [
+                {
+                  'role' => 'member',
+                  'username' => 'SomeUser2'
+                }
+              ],
+              'membership_for_some_user5' => [
                 {
                   'role' => 'member',
                   'username' => 'SomeUser'
-                },
+                }
+              ],
+              'membership_for_some_user6' => [
                 {
                   'role' => 'member',
                   'username' => 'SomeUser3'
-                },
+                }
+              ],
+              'membership_for_some_user7' => [
                 {
                   'role' => 'member',
                   'username' => 'SomeUser2'
