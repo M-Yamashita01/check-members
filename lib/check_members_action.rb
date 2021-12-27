@@ -11,8 +11,7 @@ class CheckMembersAction
 
   def initialize
     @access_token = ENV['ACCESS_TOKEN']
-    @membership_file_path = ENV['MEMBERSHIP_FILE_PATH']
-    @repository_collaborator_file_path = ENV['REPOSITORY_COLLABORATOR_FILE_PATH']
+    @terraform_directory_path = ENV['TERRAFORM_DIRECTORY_PATH']
     @organization_name = ENV['ORGANIZATION_NAME']
   end
 
@@ -20,8 +19,7 @@ class CheckMembersAction
     config_validator =
       ConfigValidator.new(
         access_token: @access_token,
-        membership_file_path: @membership_file_path,
-        repository_collaborator_file_path: @repository_collaborator_file_path,
+        terraform_directory_path: @terraform_directory_path,
         organization_name: @organization_name
       )
     unless config_validator.validate?
@@ -58,11 +56,8 @@ class CheckMembersAction
 
   def count_members_in_terraform
     terraform_reader =
-      TerraformReader.new(
-        membership_file_path: @membership_file_path,
-        repository_collaborator_file_path: @repository_collaborator_file_path
-      )
-    organization_members = terraform_reader.read_member
+      TerraformReader.new(terraform_directory_path: @terraform_directory_path)
+    organization_members = terraform_reader.read_members
     organization_members.total_members
   end
 end

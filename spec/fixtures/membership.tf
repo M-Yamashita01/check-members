@@ -1,27 +1,37 @@
 resource "github_membership" "membership_for_some_user1" {
-  username = "SomeUser"
+  username = "Membership1"
   role     = "member"
 }
 resource "github_membership" "membership_for_some_user2" {
-  username = "SomeUser1"
+  username = "Membership2"
   role     = "member"
 }
 
 resource "github_membership" "membership_for_some_user3" {
-  username = "SomeUser2"
+  username = "Membership3"
   role     = "member"
 }
 
 resource "github_membership" "membership_for_some_user4" {
-  username = "SomeUser"
+  username = "Membership1"
   role     = "member"
 }
 resource "github_membership" "membership_for_some_user5" {
-  username = "SomeUser3"
+  username = "Membership4"
   role     = "member"
 }
 
 resource "github_membership" "membership_for_some_user6" {
-  username = "SomeUser2"
+  username = "Membership3"
   role     = "member"
+}
+
+resource "github_membership" "membership_for_some_user7" {}
+
+resource "github_membership" "membership_for_some_user8" {
+  role     = "member"
+}
+
+resource "a" {
+  role = "member"
 }

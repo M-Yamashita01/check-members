@@ -1,63 +1,55 @@
 # frozen_string_literal: true
+
+require_relative 'logging'
+require_relative 'hcl2hash_conversion'
 require_relative 'organization_member'
 
 class TerraformReader
-  def initialize(membership_file_path:, repository_collaborator_file_path:)
-    @membership_file_path = membership_file_path
-    @repository_collaborator_file_path = repository_collaborator_file_path
+  include Logging
+
+  def initialize(terraform_directory_path:)
+    @terraform_directory_path = terraform_directory_path
   end
 
-  def read_member
-    organization_members = extract_members(file_path: @membership_file_path)
-    collaborator_members = extract_members(file_path: @repository_collaborator_file_path)
+  def read_members
+    github_membership_usernames = []
+    github_repository_collaborator_usernames = []
 
-    OrganizationMembers.new(membership: organization_members, repository_collaborators: collaborator_members)
+    terraform_file_paths.each do |terraform_file_path|
+      file_path = "#{@terraform_directory_path}/#{terraform_file_path}"
+      hashed_terraform = Hcl2hashConversion.convert_to_hash(terraform_file_path: file_path)
+      next if hashed_terraform['resource'].nil?
+
+      resource = hashed_terraform['resource']
+      if resource['github_membership']
+        github_membership_usernames += github_usernames(resource_names: resource['github_membership'])
+      elsif resource['github_repository_collaborator']
+        github_repository_collaborator_usernames += github_usernames(resource_names: resource['github_repository_collaborator'])
+      end
+    end
+
+    OrganizationMembers.new(
+      membership_usernames: github_membership_usernames.uniq,
+      repository_collaborator_usernames: github_repository_collaborator_usernames.uniq
+    )
   end
 
   private
 
-  def extract_members(file_path:)
-    file = open_file(file_path: file_path)
-    organization_members = []
-    lines = except_comment_lines(file: file)
-    lines.each do |line|
-      splits = line.split(' ')
-      # Consider the case of ["Username", "=", "\"Someuser\""]
-      organization_members << splits[2] if splits.include?('username')
-    end
-
-    organization_members.uniq
+  def terraform_file_paths
+    terraform_files_pattern = File.join('**', '*.tf')
+    Dir.glob(terraform_files_pattern, base: @terraform_directory_path)
   end
 
-  def except_comment_lines(file:)
-    lines = file.readlines
-    excepted_multiline_comments_lines = except_multiline_comments(lines: lines)
-    excepted_single_comments(lines: excepted_multiline_comments_lines)
-  end
-
-  def except_multiline_comments(lines:)
-    loop do
-      start_index = lines.find_index { |line| line.start_with?('/*') }
-      break if start_index.nil?
-
-      end_index = lines.find_index { |line| line.start_with?('*/') }
-      end_index = lines.size - 1 if end_index.nil?
-
-      (end_index - start_index + 1).times do
-        lines.delete_at(start_index)
+  def github_usernames(resource_names:)
+    resource_names.filter_map do |resource_name, arguments|
+      argument = arguments.first
+      if argument.empty? || argument['username'].nil?
+        logger.error("#{resource_name} does not have username.")
+        next
       end
+
+      argument['username']
     end
-
-    lines
-  end
-
-  def excepted_single_comments(lines:)
-    lines.reject do |line|
-      line.start_with?('#') || line.start_with?('//')
-    end
-  end
-
-  def open_file(file_path:)
-    File.open(file_path)
   end
 end
