@@ -48,7 +48,7 @@ jobs:
         id: seats_members
         uses: M-Yamashita01/check-members@v0.5
         env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.GITHUB_ADMIN_ACCESS_TOKEN }}
           TERRAFORM_DIRECTORY_PATH: '${{ github.workspace }}/terraform/directory/path' 
           ORGANIZATION_NAME: 'organization_name'
 
