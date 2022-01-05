@@ -1,6 +1,6 @@
 # action.yml
-name: 'Show members count'
-description: 'Show members count in GitHub Organization and members in terraform files'
+name: 'Check Members'
+description: 'This action runs on pull requests to count GitHub organization members and membership written in terraform files.'
 outputs:
   filled_seats:
     description: 'Seats that membership used.'
@@ -15,5 +15,12 @@ runs:
   using: 'composite'
   steps:
     - id: member-counter
-      run: $GITHUB_ACTION_PATH/script.sh
+      run: |
+        cd $GITHUB_ACTION_PATH
+        bundle install
+        ./script.sh
+        cd $GITHUB_WORKSPACE
       shell: sh
+branding:
+  icon: 'user-check'
+  color: 'red'

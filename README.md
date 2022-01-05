@@ -1,4 +1,4 @@
-# CheckMember
+# Check Members
 
 This action runs on pull requests to count GitHub organization members and membership written in terraform files.
 
@@ -49,9 +49,9 @@ jobs:
 
       - name: Count seats and members
         id: seats_members
-        uses: M-Yamashita01/check-members@v0.1
+        uses: M-Yamashita01/check-members@v0.5
         env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.GITHUB_ADMIN_ACCESS_TOKEN }}
           MEMBERSHIP_FILE_PATH: '${{ github.workspace }}/membership.tf' 
           REPOSITORY_COLLABORATOR_FILE_PATH: '${{ github.workspace }}/repository_collaborator.tf'
           ORGANIZATION_NAME: 'organization_name'
