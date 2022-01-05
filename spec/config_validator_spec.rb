@@ -5,15 +5,13 @@ require 'spec_helper'
 RSpec.describe ConfigValidator do
   describe '#validate?' do
     let(:access_token) { 'Sample Access Token' }
-    let(:membership_file_path) { "#{__dir__}/fixtures/membership.tf" }
-    let(:repository_collaborator_file_path) { "#{__dir__}/fixtures/repository_collaborator.tf" }
+    let(:terraform_directory_path) { "#{__dir__}/fixtures" }
     let(:organization_name) { 'organization-test' }
 
     let(:config_validator) do
       ConfigValidator.new(
         access_token: access_token,
-        membership_file_path: membership_file_path,
-        repository_collaborator_file_path: repository_collaborator_file_path,
+        terraform_directory_path: terraform_directory_path,
         organization_name: organization_name
       )
     end
@@ -36,14 +34,14 @@ RSpec.describe ConfigValidator do
       it { expect(config_validator.validate?).to be_falsey }
     end
 
-    context 'Membership file path is empty' do
-      let(:membership_file_path) { '' }
+    context 'Terraform directory path is empty' do
+      let(:terraform_directory_path) { '' }
 
       it { expect(config_validator.validate?).to be_falsey }
     end
 
-    context 'Repository Collaborator file path is empty' do
-      let(:repository_collaborator_file_path) { '' }
+    context 'Terraform directory path does not exist.' do
+      let(:terraform_directory_path) { "#{__dir__}/spec_sample" }
 
       it { expect(config_validator.validate?).to be_falsey }
     end

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 class OrganizationMembers
-  def initialize(membership:, repository_collaborators:)
-    @membership = membership
-    @repository_collaborators = repository_collaborators
+  def initialize(membership_usernames:, repository_collaborator_usernames:)
+    @membership_usernames = membership_usernames
+    @repository_collaborator_usernames = repository_collaborator_usernames
   end
 
   def total_members
-    @membership.size + @repository_collaborators.size
+    @membership_usernames.size + @repository_collaborator_usernames.size
   end
 end

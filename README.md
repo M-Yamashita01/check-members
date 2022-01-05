@@ -12,11 +12,8 @@ Required. This token needs to have `read:org` scope to read organization informa
 
 See https://docs.github.com/en/rest/reference/orgs#get-an-organization
 
-### `MEMBERSHIP_FILE_PATH`
-Required. This file path is an absolute file path to the terraform file containing the `github_membership` resources.
-
-### `REPOSITORY_COLLABORATOR_FILE_PATH`
-Required. This file path is an absolute file path to the terraform file containing the `github_repository_collaborator` resources.
+### `TERRAFORM_DIRECTORY_PATH`
+Required. This directory path is an absolute file path containing the terraform files.
 
 ### `ORGANIZATION_NAME`
 Required. This organization name for which you want to count seats.
@@ -52,8 +49,7 @@ jobs:
         uses: M-Yamashita01/check-members@v0.5
         env:
           ACCESS_TOKEN: ${{ secrets.GITHUB_ADMIN_ACCESS_TOKEN }}
-          MEMBERSHIP_FILE_PATH: '${{ github.workspace }}/membership.tf' 
-          REPOSITORY_COLLABORATOR_FILE_PATH: '${{ github.workspace }}/repository_collaborator.tf'
+          TERRAFORM_DIRECTORY_PATH: '${{ github.workspace }}/terraform/directory/path' 
           ORGANIZATION_NAME: 'organization_name'
 
       - name: Post comments
