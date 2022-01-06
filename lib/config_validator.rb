@@ -5,10 +5,9 @@ require_relative 'logging'
 class ConfigValidator
   include Logging
 
-  def initialize(access_token:, membership_file_path:, repository_collaborator_file_path:, organization_name:)
+  def initialize(access_token:, terraform_directory_path:, organization_name:)
     @access_token = access_token
-    @membership_file_path = membership_file_path
-    @repository_collaborator_file_path = repository_collaborator_file_path
+    @terraform_directory_path = terraform_directory_path
     @organization_name = organization_name
   end
 
@@ -18,14 +17,8 @@ class ConfigValidator
       return false
     end
 
-    unless File.readable?(@membership_file_path)
-      logger.error("membership file is not readable. membership file path: #{@membership_file_path}")
-      return false
-    end
-
-    unless File.readable?(@repository_collaborator_file_path)
-      logger.error("repository collaborator file is not readable.
-        repository collaborator file path: #{@membership_file_path}")
+    unless Dir.exist?(@terraform_directory_path)
+      logger.error("Not such directory. terraform_directory_path: #{@terraform_directory_path}")
       return false
     end
 
