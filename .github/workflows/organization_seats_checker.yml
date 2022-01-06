@@ -6,13 +6,17 @@ jobs:
     name: A job to show seats
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-go@v2
+
+      - name: Set up go
+        uses: actions/setup-go@v2
         with:
-          go-version: '1.9.3'
+          go-version: '1.17'
+
       - name: Install hcl2json
         run: |
-          go install github.com/tmccombs/hcl2json
+          go install github.com/tmccombs/hcl2json@latest
 
+      - name: Set up ruby
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
