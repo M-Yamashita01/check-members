@@ -54,7 +54,6 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
-          bundler-cache: true
 
       - name: Count seats and members
         id: seats_members
