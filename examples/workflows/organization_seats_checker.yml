@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: ruby/setup-ruby@v0.5
+      - uses: ruby/setup-ruby@v0.6
         with:
           ruby-version: 2.7
 
