@@ -9,3 +9,9 @@ require 'config_validator'
 require 'github_organization'
 require 'hcl2hash_conversion'
 require 'terraform_reader'
+
+require 'simplecov'
+SimpleCov.start
+
+require 'codecov'
+SimpleCov.formatter = SimpleCov::Formatter::Codecov
