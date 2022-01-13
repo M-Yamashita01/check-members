@@ -11,3 +11,7 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'sawyer'
 end
+
+group :test do
+  gem 'codecov', require: false
+end
