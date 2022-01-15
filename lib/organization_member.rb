@@ -9,4 +9,8 @@ class OrganizationMembers
   def total_members
     @membership_usernames.size + @repository_collaborator_usernames.size
   end
+
+  def user_names
+    @membership_usernames + @repository_collaborator_usernames
+  end
 end

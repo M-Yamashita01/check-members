@@ -4,12 +4,12 @@ require 'octokit'
 require 'sawyer'
 require 'spec_helper'
 
-RSpec.describe GitHubOrganization do
+RSpec.describe GithubApiRequest do
   describe '#seats' do
     let(:access_token) { 'Sample Access Token' }
     let(:organization_name) { 'SampleOrganization' }
 
-    subject { described_class.new(access_token: access_token, organization_name: organization_name).seats }
+    subject { described_class.new(access_token: access_token).seats(organization_name: organization_name) }
 
     context 'when get an organization' do
       before do
@@ -46,6 +46,46 @@ RSpec.describe GitHubOrganization do
       it 'raise error' do
         expect { subject }.to raise_error(Octokit::NotFound)
       end
+    end
+  end
+
+  describe '#exist_user?' do
+    let(:github_rest_api_url) { 'https://api.github.com' }
+    let(:access_token) { 'Sample Access Token' }
+    let(:user_name) { 'monalisa' }
+
+    before do
+      faraday = Faraday.new(github_rest_api_url) do |conn|
+        conn.adapter :test, Faraday::Adapter::Test::Stubs.new do |stub|
+          stub.get("/users/#{user_name}") { [status_code, {}, body] }
+        end
+      end
+
+      agent = Sawyer::Agent.new(
+        github_rest_api_url,
+        {
+          faraday: faraday,
+          links_parser: Sawyer::LinkParsers::Simple.new
+        }
+      )
+
+      allow_any_instance_of(Octokit::Connection).to receive(:agent).and_return(agent)
+    end
+
+    subject { described_class.new(access_token: access_token).exist_user?(user_name: user_name) }
+
+    context 'when get an existed user' do
+      let(:status_code) { 200 }
+      let(:body) { '' }
+
+      it { expect(subject).to be_truthy }
+    end
+
+    context 'when get a not existed user' do
+      let(:status_code) { 404 }
+      let(:body) { '' }
+
+      it { expect(subject).to be_falsey }
     end
   end
 end

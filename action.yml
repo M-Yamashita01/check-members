@@ -1,6 +1,10 @@
 # action.yml
 name: 'Check Members'
 description: 'This action runs on pull requests to count GitHub organization members and membership written in terraform files.'
+inputs:
+  verify_existence_account:
+    description: 'Verify the existence of your account.'
+    required: false
 outputs:
   filled_seats:
     description: 'Seats that membership used.'

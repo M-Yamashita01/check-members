@@ -3,17 +3,17 @@
 require 'octokit'
 require_relative 'logging'
 
-class GitHubOrganization
+class GithubApiRequest
   include Logging
 
-  def initialize(access_token:, organization_name:)
-    @access_token = access_token
-    @organization_name = organization_name
+  def initialize(access_token:)
+    # @access_token = access_token
+    @client = Octokit::Client.new(access_token: access_token)
   end
 
-  def seats
-    client = Octokit::Client.new(access_token: @access_token)
-    organization = client.org(@organization_name)
+  def seats(organization_name:)
+    # client = Octokit::Client.new(access_token: @access_token)
+    organization = @client.org(organization_name)
     org_plan = organization[:plan]
     filled_seats = org_plan[:filled_seats]
     max_seats = org_plan[:seats]
@@ -26,5 +26,10 @@ class GitHubOrganization
     logger.error(e.message)
     logger.error(e.backtrace.join("\n"))
     raise e
+  end
+
+  def exist_user?(user_name:)
+    @client.user(user_name)
+    @client.last_response.status.eql?(200)
   end
 end
