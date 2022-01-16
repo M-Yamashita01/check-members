@@ -2,43 +2,51 @@
 
 require_relative 'logging'
 require_relative 'hcl2hash_conversion'
-require_relative 'organization_member'
 
 class TerraformReader
   include Logging
 
+  GITHUB_USER_RESOURCE_NAMES = [
+    'github_membership',
+    'github_repository_collaborator'
+  ].freeze
+
   def initialize(terraform_directory_path:)
-    @terraform_directory_path = terraform_directory_path
+    read_members(terraform_directory_path: terraform_directory_path)
   end
 
-  def read_members
-    github_membership_usernames = []
-    github_repository_collaborator_usernames = []
+  def read_members(terraform_directory_path:)
+    @resource_configuration_blocks = []
+    terraform_file_paths = terraform_file_paths(terraform_directory_path: terraform_directory_path)
 
     terraform_file_paths.each do |terraform_file_path|
-      file_path = "#{@terraform_directory_path}/#{terraform_file_path}"
-      hashed_terraform = Hcl2hashConversion.convert_to_hash(terraform_file_path: file_path)
-      next if hashed_terraform['resource'].nil?
+      file_path = "#{terraform_directory_path}/#{terraform_file_path}"
+      @resource_configuration_blocks << Hcl2hashConversion.convert_to_hash(terraform_file_path: file_path)
+    end
+  end
 
-      resource = hashed_terraform['resource']
-      if resource['github_membership']
-        github_membership_usernames += github_usernames(resource_names: resource['github_membership'])
-      elsif resource['github_repository_collaborator']
-        github_repository_collaborator_usernames += github_usernames(resource_names: resource['github_repository_collaborator'])
+  def usernames
+    return [] if @resource_configuration_blocks.nil?
+
+    usernames = GITHUB_USER_RESOURCE_NAMES.collect do |github_user_resource|
+      @resource_configuration_blocks.collect do |hashed_terraform|
+        next if hashed_terraform['resource'].nil?
+
+        resource = hashed_terraform['resource'][github_user_resource]
+        next if resource.nil?
+
+        github_usernames(resource_names: resource)
       end
     end
 
-    OrganizationMembers.new(
-      membership_usernames: github_membership_usernames.uniq,
-      repository_collaborator_usernames: github_repository_collaborator_usernames.uniq
-    )
+    usernames.flatten!.compact!.uniq!
   end
 
   private
 
-  def terraform_file_paths
+  def terraform_file_paths(terraform_directory_path:)
     terraform_files_pattern = File.join('**', '*.tf')
-    Dir.glob(terraform_files_pattern, base: @terraform_directory_path)
+    Dir.glob(terraform_files_pattern, base: terraform_directory_path)
   end
 
   def github_usernames(resource_names:)

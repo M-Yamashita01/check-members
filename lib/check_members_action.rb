@@ -4,7 +4,6 @@ require 'logger'
 require_relative 'config_validator'
 require_relative 'github_api_request'
 require_relative 'terraform_reader'
-require_relative 'organization_member'
 
 class CheckMembersAction
   include Logging
@@ -33,7 +32,7 @@ class CheckMembersAction
     filled_seats = seats[:filled_seats]
     max_seats = seats[:max_seats]
 
-    members_in_terraform = count_members_in_terraform
+    members_in_terraform = usernames_in_terraform.size
 
     if @verify_account == 'true' && !no_exist_usernames.empty?
       logger.error('Some users in terraform files do not exist.')
@@ -66,13 +65,6 @@ class CheckMembersAction
     github_api_request.exist_user?
   end
 
-  def count_members_in_terraform
-    terraform_reader =
-      TerraformReader.new(terraform_directory_path: @terraform_directory_path)
-    organization_members = terraform_reader.read_members
-    organization_members.total_members
-  end
-
   def no_exist_usernames
     usernames_in_terraform.reject do |username|
       exist_github_user?(username)
@@ -80,9 +72,8 @@ class CheckMembersAction
   end
 
   def usernames_in_terraform
-    terraform_reader =
+    @terraform_reader ||=
       TerraformReader.new(terraform_directory_path: @terraform_directory_path)
-    organization_members = terraform_reader.read_members
-    organization_members.user_names
+    @terraform_reader.usernames
   end
 end
