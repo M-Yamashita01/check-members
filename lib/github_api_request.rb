@@ -7,12 +7,10 @@ class GithubApiRequest
   include Logging
 
   def initialize(access_token:)
-    # @access_token = access_token
     @client = Octokit::Client.new(access_token: access_token)
   end
 
   def seats(organization_name:)
-    # client = Octokit::Client.new(access_token: @access_token)
     organization = @client.org(organization_name)
     org_plan = organization[:plan]
     filled_seats = org_plan[:filled_seats]
@@ -28,8 +26,8 @@ class GithubApiRequest
     raise e
   end
 
-  def exist_user?(user_name:)
-    @client.user(user_name)
+  def exist_user?(username:)
+    @client.user(username)
     @client.last_response.status.eql?(200)
   end
 end

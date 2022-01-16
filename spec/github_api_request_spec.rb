@@ -5,25 +5,46 @@ require 'sawyer'
 require 'spec_helper'
 
 RSpec.describe GithubApiRequest do
+  let(:github_api_base_url) { 'https://api.github.com' }
+  let(:access_token) { 'Sample Access Token' }
+
+  before do
+    faraday = Faraday.new(github_api_base_url) do |conn|
+      conn.adapter :test, Faraday::Adapter::Test::Stubs.new do |stub|
+        stub.get(rest_domain_url) { [status_code, {}, body] }
+      end
+    end
+
+    agent = Sawyer::Agent.new(
+      github_api_base_url,
+      {
+        faraday: faraday,
+        links_parser: Sawyer::LinkParsers::Simple.new
+      }
+    )
+
+    allow_any_instance_of(Octokit::Connection).to receive(:agent).and_return(agent)
+  end
+
   describe '#seats' do
     let(:access_token) { 'Sample Access Token' }
     let(:organization_name) { 'SampleOrganization' }
+    let(:rest_domain_url) { "/orgs/#{organization_name}" }
 
     subject { described_class.new(access_token: access_token).seats(organization_name: organization_name) }
 
     context 'when get an organization' do
-      before do
-        agent = Sawyer::Agent.new(
-          'https://api.github.com',
-          links_parser: Sawyer::LinkParsers::Simple.new
-        )
-
-        file = File.open("#{__dir__}/fixtures/organization.json")
-        response = file.read
-        hashed_response = JSON.parse(response)
-
-        resource = Sawyer::Resource.new(agent, hashed_response)
-        allow_any_instance_of(Octokit::Client).to receive(:org).and_return(resource)
+      let(:status_code) { 200 }
+      let(:body) do
+        {
+          'plan': {
+            'name': 'Medium',
+            'space': 400,
+            'private_repos': 20,
+            'filled_seats': 4,
+            'seats': 5
+          }
+        }
       end
 
       it 'get filled_seats and max_seats' do
@@ -50,29 +71,10 @@ RSpec.describe GithubApiRequest do
   end
 
   describe '#exist_user?' do
-    let(:github_rest_api_url) { 'https://api.github.com' }
-    let(:access_token) { 'Sample Access Token' }
-    let(:user_name) { 'monalisa' }
+    let(:username) { 'monalisa' }
+    let(:rest_domain_url) { "/users/#{username}" }
 
-    before do
-      faraday = Faraday.new(github_rest_api_url) do |conn|
-        conn.adapter :test, Faraday::Adapter::Test::Stubs.new do |stub|
-          stub.get("/users/#{user_name}") { [status_code, {}, body] }
-        end
-      end
-
-      agent = Sawyer::Agent.new(
-        github_rest_api_url,
-        {
-          faraday: faraday,
-          links_parser: Sawyer::LinkParsers::Simple.new
-        }
-      )
-
-      allow_any_instance_of(Octokit::Connection).to receive(:agent).and_return(agent)
-    end
-
-    subject { described_class.new(access_token: access_token).exist_user?(user_name: user_name) }
+    subject { described_class.new(access_token: access_token).exist_user?(username: username) }
 
     context 'when get an existed user' do
       let(:status_code) { 200 }
