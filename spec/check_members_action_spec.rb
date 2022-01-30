@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 RSpec.describe CheckMembersAction do
+  subject { described_class.new.run }
+
   let(:octokit_client) { instance_double(Octokit::Client) }
   let(:kernel) { instance_double(Kernel) }
-
-  subject { described_class.new.run }
 
   describe '#run' do
     before do
