@@ -9,12 +9,14 @@ RSpec.describe ConfigValidator do
     let(:access_token) { 'Sample Access Token' }
     let(:terraform_directory_path) { "#{__dir__}/fixtures" }
     let(:organization_name) { 'organization-test' }
+    let(:verify_account) { nil }
 
     let(:config_validator) do
       ConfigValidator.new(
         access_token: access_token,
         terraform_directory_path: terraform_directory_path,
-        organization_name: organization_name
+        organization_name: organization_name,
+        verify_account: nil
       )
     end
 
@@ -56,6 +58,24 @@ RSpec.describe ConfigValidator do
       let(:organization_name) { nil }
 
       it { expect(config_validator.validate?).to be_falsey }
+    end
+
+    context 'Verify account is true' do
+      let(:verify_account) { 'true' }
+
+      it { expect(config_validator.validate?) }
+    end
+
+    context 'Verify account is false' do
+      let(:verify_account) { 'false' }
+
+      it { expect(config_validator.validate?) }
+    end
+
+    context 'Verify account is sample string' do
+      let(:verify_account) { 'sample' }
+
+      it { expect(config_validator.validate?) }
     end
   end
 end
