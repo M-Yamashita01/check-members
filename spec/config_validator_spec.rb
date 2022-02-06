@@ -4,6 +4,8 @@ require 'spec_helper'
 
 RSpec.describe ConfigValidator do
   describe '#validate?' do
+    subject { config_validator.validate }
+
     let(:access_token) { 'Sample Access Token' }
     let(:terraform_directory_path) { "#{__dir__}/fixtures" }
     let(:organization_name) { 'organization-test' }
@@ -17,8 +19,6 @@ RSpec.describe ConfigValidator do
         verify_account: nil
       )
     end
-
-    subject { config_validator.validate }
 
     context 'All environment variables are valid.' do
       it { expect(config_validator.validate?).to be_truthy }

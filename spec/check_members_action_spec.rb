@@ -5,6 +5,9 @@ require 'spec_helper'
 RSpec.describe CheckMembersAction do
   subject { described_class.new.run }
 
+  let(:octokit_client) { instance_double(Octokit::Client) }
+  let(:kernel) { instance_double(Kernel) }
+
   describe '#run' do
     before do
       ENV['ACCESS_TOKEN'] = 'Sample Access Token'
