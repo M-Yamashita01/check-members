@@ -17,4 +17,8 @@ group :development, :test do
 
   # Simplecov-cobertura to generate an xml coverage file which can then be uploaded to Codecov
   gem 'simplecov-cobertura'
+
+  # For API calls 
+  gem 'json'
+  gem 'rest-client'
 end
