@@ -13,7 +13,5 @@ require 'terraform_reader'
 require 'simplecov'
 SimpleCov.start
 
-if ENV['CI'] == 'true'
-  require 'simplecov-cobertura'
-  SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
-end
+require 'simplecov-cobertura'
+SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
