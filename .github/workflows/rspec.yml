@@ -6,6 +6,8 @@ jobs:
     name: Run spec
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
 
       - name: Set up go
         uses: actions/setup-go@v2
@@ -28,7 +30,7 @@ jobs:
         run: |
           bundle exec rspec
           bash <(curl -s https://codecov.io/bash) -f coverage/coverage.xml
-          ruby request.rb
+          bundle exec ruby request.rb
 
       - name: Upstream to Standards
         env:
