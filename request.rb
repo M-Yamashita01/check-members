@@ -31,14 +31,13 @@ def ping_api
   coverage_percentage = commit_data['totals']['c']
 
   # Coverage percentage should be 93.65079 (this is specfied via environment variables on Travis), fail build otherwise
-  # if coverage_percentage == ENV['CORRECT_COVERAGE']
-      # puts "Success! Codecov's API returned the correct coverage percentage, "+ ENV['CORRECT_COVERAGE']
-      # exit 0
-  # else
-      # puts "Whoops, something is wrong D: Codecov did not return the correct coverage percentage. Coverage percentage should be "+ ENV['CORRECT_COVERAGE'] +" but Codecov returned "+coverage_percentage
-      # exit 1
-  # end
-  exit 0
+  if coverage_percentage >= ENV['CORRECT_COVERAGE']
+    puts "Success! Codecov's API returned the correct coverage percentage, #{ENV['CORRECT_COVERAGE']}"
+    exit 0
+  else
+    puts "Whoops, something is wrong D: Codecov did not return the correct coverage percentage. Coverage percentage should be #{ENV['CORRECT_COVERAGE']} but Codecov returned #{coverage_percentage}"
+    exit 1
+  end
 end
 
 run!

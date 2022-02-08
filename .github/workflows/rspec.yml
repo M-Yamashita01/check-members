@@ -27,6 +27,7 @@ jobs:
       - name: Test with RSpec
         env:
           API_KEY: ${{ secrets.CODECOV_ACCESS_TOKEN }}
+          CORRECT_COVERAGE: ${{ secrets.CORRECT_COVERAGE }}
         run: |
           bundle exec rspec
           bash <(curl -s https://codecov.io/bash) -f coverage/coverage.xml
