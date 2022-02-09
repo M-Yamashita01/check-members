@@ -33,13 +33,11 @@ jobs:
           bash <(curl -s https://codecov.io/bash) -f coverage/coverage.xml
           bundle exec ruby request.rb
 
-      - name: Upstream to Standards
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERAGE_SOURCE_FILE: ${{ secrets.COVERAGE_SOURCE_FILE }}
-        # if: ${{ github.event_name == 'push' }}
-        run: |
-          wget --header "Authorization: token ${GH_TOKEN}" \
-          --header "Accept: application/vnd.github.v3.raw" \
-          https://api.github.com/repos/codecov/standards/contents/upstream.sh
-          bash upstream.sh
+      - uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          files: ./coverage/coverage.xml
+          flags: unittests # optional
+          name: check-members-for-codecov # optional
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
