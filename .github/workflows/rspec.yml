@@ -33,7 +33,8 @@ jobs:
           bash <(curl -s https://codecov.io/bash) -f coverage/coverage.xml
           bundle exec ruby request.rb
 
-      - uses: codecov/codecov-action@v2
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
           files: ./coverage/coverage.xml
