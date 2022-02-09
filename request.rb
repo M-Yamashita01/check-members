@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Function: this is a simple ruby script that calls Codecov's API to make sure it's returning the proper coverage
 
 require 'rest-client'
@@ -29,9 +30,6 @@ def ping_api
   # get the commit data and coverage percentage
   commit_data = to_json['commits'][0]
   coverage_percentage = commit_data['totals']['c']
-
-  puts "ENV['CORRECT_COVERAGE']: #{ENV['CORRECT_COVERAGE']}"
-  puts "coverage_percentage: #{coverage_percentage}"
 
   # Coverage percentage should be 93.65079 (this is specfied via environment variables on Travis), fail build otherwise
   if coverage_percentage.to_i >= ENV['CORRECT_COVERAGE'].to_i
