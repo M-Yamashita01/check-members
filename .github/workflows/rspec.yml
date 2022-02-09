@@ -6,6 +6,8 @@ jobs:
     name: Run spec
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
 
       - name: Set up go
         uses: actions/setup-go@v2
@@ -23,5 +25,20 @@ jobs:
           bundler-cache: true
 
       - name: Test with RSpec
+        env:
+          API_KEY: ${{ secrets.CODECOV_ACCESS_TOKEN }}
+          CORRECT_COVERAGE: ${{ secrets.CORRECT_COVERAGE }}
         run: |
           bundle exec rspec
+          bash <(curl -s https://codecov.io/bash) -f coverage/coverage.xml
+          bundle exec ruby request.rb
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          files: ./coverage/coverage.xml
+          flags: unittests # optional
+          name: check-members-for-codecov # optional
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)

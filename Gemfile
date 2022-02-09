@@ -11,8 +11,14 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'rubocop-rspec', require: false
   gem 'sawyer'
-end
 
-group :test do
-  gem 'codecov', require: false
+  # Simplecov to generate coverage info
+  gem 'simplecov', require: false
+
+  # Simplecov-cobertura to generate an xml coverage file which can then be uploaded to Codecov
+  gem 'simplecov-cobertura'
+
+  # For API calls
+  gem 'json'
+  gem 'rest-client'
 end
