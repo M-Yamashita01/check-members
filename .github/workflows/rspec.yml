@@ -25,13 +25,8 @@ jobs:
           bundler-cache: true
 
       - name: Test with RSpec
-        env:
-          API_KEY: ${{ secrets.CODECOV_ACCESS_TOKEN }}
-          CORRECT_COVERAGE: ${{ secrets.CORRECT_COVERAGE }}
         run: |
           bundle exec rspec
-          bash <(curl -s https://codecov.io/bash) -f coverage/coverage.xml
-          bundle exec ruby request.rb
 
       - name: Upload coverage reports
         uses: codecov/codecov-action@v2
