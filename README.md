@@ -28,7 +28,7 @@ Max seats an organization can use.
 Total number of membership in the `github_membership` and `github_repository_collaborator` resources written in the terraform file.
 
 ## Example usage
-Note: This action should be used with actions/setup-go action step, `Install hcl2json` step, ruby/setup-ruby action step and actions/github-script action step, such as below workflow.
+Note: This action should be used with `Install hcl2json` step, ruby/setup-ruby action step and actions/github-script action step, such as below workflow.
 
 
 ```
@@ -41,14 +41,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up go
-        uses: actions/setup-go@v2
-        with:
-          go-version: '1.17'
-
       - name: Install hcl2json
-        run: |
-          go install github.com/tmccombs/hcl2json@latest
+        run: brew install hcl2json
 
       - name: Set up ruby
       - uses: ruby/setup-ruby@v1
