@@ -72,6 +72,12 @@ jobs:
               additional_message = `There are ${numberOfSeatsInShortage} seats missing. Please add seats.\n`
             }
             output += additional_message
+
+            if (${{steps.seats_members.outputs.not_existed_usernames_in_github}}.length > 0) {
+              joinedNotExistedUsernames = ${{steps.seats_members.outputs.not_existed_usernames_in_github}}.join()
+              notExistedUsernamesMessage = `Some GitHub user are not existed. UserList: ${joinedNotExistedUsernames}`
+            }
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
