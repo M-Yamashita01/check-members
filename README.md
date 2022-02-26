@@ -45,7 +45,7 @@ jobs:
         run: brew install hcl2json
 
       - name: Set up ruby
-      - uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
 
