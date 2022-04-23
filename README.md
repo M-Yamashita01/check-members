@@ -27,6 +27,9 @@ Max seats an organization can use.
 ### `members_in_terraform`
 Total number of membership in the `github_membership` and `github_repository_collaborator` resources written in the terraform file.
 
+### `non_existing_members`
+Members which are in terraform do not exist in GitHub.
+
 ## Example usage
 Note: This action should be used with `Install hcl2json` step, ruby/setup-ruby action step and actions/github-script action step, such as below workflow.
 
@@ -71,7 +74,15 @@ jobs:
             if (numberOfSeatsInShortage > 0) {
               additional_message = `There are ${numberOfSeatsInShortage} seats missing. Please add seats.\n`
             }
+
+            notify_non_existing_member_message = ``
+            non_existing_members = ${{steps.seats_members.outputs.non_existing_members}}
+            if (non_existing_members.length > 0) {
+              notify_non_existing_member_message = `Some members in terraform files do not exist. Non-existing members: ${non_existing_members} .\n`
+            }
+
             output += additional_message
+            output += notify_non_existing_member_message
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
