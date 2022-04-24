@@ -35,13 +35,13 @@ class CheckMembersAction
     members_in_terraform = usernames_in_terraform.size
 
     if @verify_account == 'true'
-      usernames = non_existing_usernames
-      if !usernames.empty?
-        joined_usernames = usernames.join(',')
+      non_existing_usernames = get_non_existing_usernames
+      usernames = non_existing_usernames.join(',')
+      if !non_existing_usernames.empty?
         logger.error('Some users in terraform files do not exist.')
-        logger.error("Non existing users: #{joined_usernames}")
-        puts "::set-output name=non_existing_members::#{joined_usernames}"
+        logger.error("Non existing users: #{usernames}")
       end
+      puts "::set-output name=non_existing_members::#{usernames}"
     end
 
     puts "::set-output name=filled_seats::#{filled_seats}"
@@ -71,7 +71,7 @@ class CheckMembersAction
     @github_api_request ||= GithubApiRequest.new(access_token: @access_token)
   end
 
-  def non_existing_usernames
+  def get_non_existing_usernames
     usernames_in_terraform.reject do |username|
       exist_github_user?(username: username)
     end
