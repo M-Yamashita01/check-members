@@ -13,6 +13,12 @@ class CheckMembersAction
     @terraform_directory_path = ENV['TERRAFORM_DIRECTORY_PATH']
     @organization_name = ENV['ORGANIZATION_NAME']
     @verify_account = ENV['INPUT_VERIFY_EXISTENCE_ACCOUNT']
+
+    logger.info("options")
+    logger.info("access_token: #{@access_token}")
+    logger.info("terraform_directory_path: #{@terraform_directory_path}")
+    logger.info("organization_name: #{@organization_name}")
+    logger.info("verify_account: #{@verify_account}")
   end
 
   def run
