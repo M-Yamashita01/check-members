@@ -75,8 +75,8 @@ jobs:
               additional_message = `There are ${numberOfSeatsInShortage} seats missing. Please add seats.\n`
             }
 
-            notify_non_existing_member_message = ``
-            non_existing_members = ${{steps.seats_members.outputs.non_existing_members}}
+            const non_existing_members = ${{steps.seats_members.outputs.non_existing_members}}
+            var notify_non_existing_member_message = ``
             if (non_existing_members.length > 0) {
               notify_non_existing_member_message = `Some members in terraform files do not exist. Non-existing members: ${non_existing_members} .\n`
             }
