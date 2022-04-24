@@ -28,6 +28,7 @@ class GithubApiRequest
 
   def exist_user?(username:)
     @client.user(username)
+    logger.debug("@client.last_response.inspect: #{@client.last_response.inspect}")
     @client.last_response.status.eql?(200)
   end
 end

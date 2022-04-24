@@ -37,6 +37,7 @@ class CheckMembersAction
     if @verify_account == 'true'
       non_existing_usernames = get_non_existing_usernames
       usernames = non_existing_usernames.join(',')
+      logger.debug("usernames: #{usernames}")
       if !non_existing_usernames.empty?
         logger.error('Some users in terraform files do not exist.')
         logger.error("Non existing users: #{usernames}")
