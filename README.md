@@ -65,20 +65,22 @@ jobs:
         with:
           script: |
             var output = `Current seats in organization and members in terraform files.\n
-              ・Seats that membership used:: ${{steps.seats_members.outputs.filled_seats}}\n
-              ・Max seats an organization can use: ${{steps.seats_members.outputs.max_seats}}\n
-              ・Total number of membership in terraform files: ${{steps.seats_members.outputs.members_in_terraform}}\n\n
+              ・Seats that membership used:: ${{ steps.seats_members.outputs.filled_seats }}\n
+              ・Max seats an organization can use: ${{ steps.seats_members.outputs.max_seats }}\n
+              ・Total number of membership in terraform files: ${{ steps.seats_members.outputs.members_in_terraform }}\n\n
             `
-            const numberOfSeatsInShortage = ${{steps.seats_members.outputs.members_in_terraform}} - ${{steps.seats_members.outputs.max_seats}}
+            const numberOfSeatsInShortage = ${{ steps.seats_members.outputs.members_in_terraform }} - ${{ steps.seats_members.outputs.max_seats }}
             var additional_message = `There is no shortage of seats.\n`
             if (numberOfSeatsInShortage > 0) {
               additional_message = `There are ${numberOfSeatsInShortage} seats missing. Please add seats.\n`
             }
 
-            const non_existing_members = ${{steps.seats_members.outputs.non_existing_members}}
             var notify_non_existing_member_message = ``
+            const non_existing_members = "${{ steps.seats_members.outputs.non_existing_members }}"
             if (non_existing_members.length > 0) {
-              notify_non_existing_member_message = `Some members in terraform files do not exist. Non-existing members: ${non_existing_members} .\n`
+              notify_non_existing_member_message = `Some members in terraform files do not exist. Please check the members.\n
+              ・Non-existing members: ${non_existing_members}.\n\n
+              `
             }
 
             output += additional_message
