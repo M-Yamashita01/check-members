@@ -84,8 +84,9 @@ RSpec.describe GithubApiRequest do
     end
 
     context 'when get a not existed user' do
-      let(:status_code) { 404 }
-      let(:body) { '' }
+      before do
+        allow_any_instance_of(Octokit::Client).to receive(:user).and_raise(StandardError)
+      end
 
       it { expect(subject).to be_falsey }
     end
