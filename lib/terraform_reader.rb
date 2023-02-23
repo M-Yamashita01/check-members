@@ -46,3 +46,4 @@ class TerraformReader
   def initialize(terraform_json:)
     @terraform_json = terraform_json
   end
+end
