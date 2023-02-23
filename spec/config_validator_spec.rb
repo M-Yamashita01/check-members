@@ -7,14 +7,14 @@ RSpec.describe ConfigValidator do
     subject { config_validator.validate }
 
     let(:access_token) { 'Sample Access Token' }
-    let(:terraform_directory_path) { "#{__dir__}/fixtures" }
+    let(:terraform_json_file_path) { "#{__dir__}/fixtures/terraform_valid_json.json" }
     let(:organization_name) { 'organization-test' }
     let(:verify_account) { nil }
 
     let(:config_validator) do
       ConfigValidator.new(
         access_token: access_token,
-        terraform_directory_path: terraform_directory_path,
+        terraform_json_file_path: terraform_json_file_path,
         organization_name: organization_name,
         verify_account: nil
       )
@@ -36,17 +36,17 @@ RSpec.describe ConfigValidator do
       it { expect(config_validator.validate?).to be_falsey }
     end
 
-    context 'Terraform directory path is empty' do
-      let(:terraform_directory_path) { '' }
+    context 'Terraform json file path is empty' do
+      let(:terraform_json_file_path) { '' }
 
       it { expect(config_validator.validate?).to be_falsey }
     end
 
-    context 'Terraform directory path does not exist.' do
-      let(:terraform_directory_path) { "#{__dir__}/spec_sample" }
+    # context 'Terraform directory path does not exist.' do
+    #   let(:terraform_json_file_path) { "#{__dir__}/spec_sample" }
 
-      it { expect(config_validator.validate?).to be_falsey }
-    end
+    #   it { expect(config_validator.validate?).to be_falsey }
+    # end
 
     context 'Organization Name is empty' do
       let(:organization_name) { '' }

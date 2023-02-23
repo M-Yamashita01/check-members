@@ -1,63 +1,48 @@
 # frozen_string_literal: true
 
+require 'json'
 require_relative 'logging'
 require_relative 'hcl2hash_conversion'
 
 class TerraformReader
   include Logging
 
+  private_class_method :new
+
   GITHUB_USER_RESOURCE_NAMES = [
     'github_membership',
     'github_repository_collaborator'
   ].freeze
 
-  def initialize(terraform_directory_path:)
-    read_members(terraform_directory_path: terraform_directory_path)
+  def self.open_file(terraform_json_file_path:)
+    json_file = File.open(terraform_json_file_path)
+    terraform_json = JSON.load(json_file)
+
+    new(terraform_json: terraform_json)
   end
 
-  def read_members(terraform_directory_path:)
-    @resource_configuration_blocks = []
-    terraform_file_paths = terraform_file_paths(terraform_directory_path: terraform_directory_path)
+  def read_members
+    begin
+      planned_values = @terraform_json["planned_values"]
+      root_module = planned_values["root_module"]
+      resources = root_module["resources"]
 
-    terraform_file_paths.each do |terraform_file_path|
-      file_path = "#{terraform_directory_path}/#{terraform_file_path}"
-      @resource_configuration_blocks << Hcl2hashConversion.convert_to_hash(terraform_file_path: file_path)
-    end
-  end
-
-  def usernames
-    return [] if @resource_configuration_blocks.nil?
-
-    usernames = GITHUB_USER_RESOURCE_NAMES.collect do |github_user_resource|
-      @resource_configuration_blocks.collect do |hashed_terraform|
-        next if hashed_terraform['resource'].nil?
-
-        resource = hashed_terraform['resource'][github_user_resource]
-        next if resource.nil?
-
-        github_usernames(resource_names: resource)
+      usernames = []
+      resources.each do |resource|
+        values = resource["values"]
+        usernames << values["username"]
       end
+    rescue => error
+      logger.error(error.message)
+      logger.error(error.backtrace.join("\n"))
+      raise StandardError.new("The terraform json file is invalid.")
     end
 
-    usernames.flatten!.compact!.uniq!
+    usernames.uniq
   end
 
   private
 
-  def terraform_file_paths(terraform_directory_path:)
-    terraform_files_pattern = File.join('**', '*.tf')
-    Dir.glob(terraform_files_pattern, base: terraform_directory_path)
+  def initialize(terraform_json:)
+    @terraform_json = terraform_json
   end
-
-  def github_usernames(resource_names:)
-    resource_names.filter_map do |resource_name, arguments|
-      argument = arguments.first
-      if argument.empty? || argument['username'].nil?
-        logger.error("#{resource_name} does not have username.")
-        next
-      end
-
-      argument['username']
-    end
-  end
-end

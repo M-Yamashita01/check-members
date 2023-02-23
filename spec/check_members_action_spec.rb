@@ -11,7 +11,7 @@ RSpec.describe CheckMembersAction do
   describe '#run' do
     before do
       ENV['ACCESS_TOKEN'] = 'Sample Access Token'
-      ENV['TERRAFORM_DIRECTORY_PATH'] = "#{__dir__}/fixtures"
+      ENV['TERRAFORM_JSON_FILE_PATH'] = "#{__dir__}/fixtures/terraform_valid_json.json"
       ENV['ORGANIZATION_NAME'] = 'organization-test'
       ENV['INPUT_VERIFY_EXISTENCE_ACCOUNT'] = 'true'
 
