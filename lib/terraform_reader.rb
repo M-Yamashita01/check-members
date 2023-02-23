@@ -2,7 +2,6 @@
 
 require 'json'
 require_relative 'logging'
-require_relative 'hcl2hash_conversion'
 
 class TerraformReader
   include Logging
