@@ -10,7 +10,7 @@ class CheckMembersAction
 
   def initialize
     @access_token = ENV['ACCESS_TOKEN']
-    @terraform_directory_path = ENV['TERRAFORM_DIRECTORY_PATH']
+    @terraform_json_file_path = ENV['TERRAFORM_JSON_FILE_PATH']
     @organization_name = ENV['ORGANIZATION_NAME']
     @verify_account = ENV['INPUT_VERIFY_EXISTENCE_ACCOUNT']
   end
@@ -19,7 +19,7 @@ class CheckMembersAction
     config_validator =
       ConfigValidator.new(
         access_token: @access_token,
-        terraform_directory_path: @terraform_directory_path,
+        terraform_json_file_path: @terraform_json_file_path,
         organization_name: @organization_name,
         verify_account: @verify_account
       )
@@ -78,7 +78,7 @@ class CheckMembersAction
 
   def usernames_in_terraform
     @terraform_reader ||=
-      TerraformReader.new(terraform_directory_path: @terraform_directory_path)
-    @terraform_reader.usernames
+      TerraformReader.open_file(terraform_json_file_path: @terraform_json_file_path)
+    @terraform_reader.read_members
   end
 end

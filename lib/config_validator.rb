@@ -5,9 +5,9 @@ require_relative 'logging'
 class ConfigValidator
   include Logging
 
-  def initialize(access_token:, terraform_directory_path:, organization_name:, verify_account: nil)
+  def initialize(access_token:, terraform_json_file_path:, organization_name:, verify_account: nil)
     @access_token = access_token
-    @terraform_directory_path = terraform_directory_path
+    @terraform_json_file_path = terraform_json_file_path
     @organization_name = organization_name
     @verify_account = verify_account
   end
@@ -18,8 +18,8 @@ class ConfigValidator
       return false
     end
 
-    unless Dir.exist?(@terraform_directory_path)
-      logger.error("Not such directory. terraform_directory_path: #{@terraform_directory_path}")
+    unless File.exist?(@terraform_json_file_path)
+      logger.error("Not found file. terraform_json_file_path: #{@terraform_json_file_path}")
       return false
     end
 
