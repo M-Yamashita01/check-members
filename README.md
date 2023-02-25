@@ -12,8 +12,8 @@ Required. This token needs to have `read:org` scope to read organization informa
 
 See https://docs.github.com/en/rest/reference/orgs#get-an-organization
 
-### `TERRAFORM_DIRECTORY_PATH`
-Required. This directory path is an absolute file path containing the terraform files.
+### `TERRAFORM_JSON_FILE_PATH`
+Required. The json file from running the command `terraform show --json | jq`.
 
 ### `ORGANIZATION_NAME`
 Required. This organization name for which you want to count seats.
@@ -31,8 +31,7 @@ Total number of membership in the `github_membership` and `github_repository_col
 Members which are in terraform do not exist in GitHub.
 
 ## Example usage
-Note: This action should be used with `Install hcl2json` step, ruby/setup-ruby action step and actions/github-script action step, such as below workflow.
-
+- Note: This action should be used with setup-terraform step. The terraform_wrapper flag in the setup-terraform step should be set to false.
 
 ```
 on: [pull_request]
@@ -44,8 +43,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install hcl2json
-        run: brew install hcl2json
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.3.9
+          terraform_wrapper: false
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform plan
+        run: terraform plan -out plan-binary
+
+      - name: Terraform show --json
+        run:  terraform show --json plan-binary | jq >> terraform-json.json
 
       - name: Set up ruby
         uses: ruby/setup-ruby@v1
@@ -57,7 +67,7 @@ jobs:
         uses: M-Yamashita01/check-members@v0.8
         env:
           ACCESS_TOKEN: ${{ secrets.GITHUB_ADMIN_ACCESS_TOKEN }}
-          TERRAFORM_DIRECTORY_PATH: '${{ github.workspace }}/terraform/directory/path' 
+          TERRAFORM_JSON_FILE_PATH: '${{ github.workspace }}/terraform-json.json'
           ORGANIZATION_NAME: 'organization_name'
 
       - name: Post comments
