@@ -9,10 +9,6 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Install hcl2json
-        run: brew install hcl2json
-          
-
       - name: Set up ruby
         uses: ruby/setup-ruby@v1
         with:
