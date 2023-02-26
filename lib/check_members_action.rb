@@ -34,18 +34,21 @@ class CheckMembersAction
 
     members_in_terraform = usernames_in_terraform.size
 
+    github_output = []
     if @verify_account == 'true'
       usernames = non_existing_usernames.join(', ')
       if !usernames.empty?
         logger.error('Some users in terraform files do not exist.')
         logger.error("Non existing users: #{usernames}")
       end
-      puts "::set-output name=non_existing_members::#{usernames}"
+
+      github_output << "non_existing_members=#{usernames}"
     end
 
-    puts "::set-output name=filled_seats::#{filled_seats}"
-    puts "::set-output name=max_seats::#{max_seats}"
-    puts "::set-output name=members_in_terraform::#{members_in_terraform}"
+    github_output << "filled_seats=#{filled_seats}"
+    github_output << "max_seats=#{max_seats}"
+    github_output << "members_in_terraform=#{members_in_terraform}"
+    system("echo \"#{github_output.join('\n')}\" >> \"$GITHUB_OUTPUT\"")
 
     exit
   rescue StandardError => e
