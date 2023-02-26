@@ -64,7 +64,7 @@ jobs:
 
       - name: Count seats and members
         id: seats_members
-        uses: M-Yamashita01/check-members@v0.8
+        uses: M-Yamashita01/check-members@v0.9
         env:
           ACCESS_TOKEN: ${{ secrets.GITHUB_ADMIN_ACCESS_TOKEN }}
           TERRAFORM_JSON_FILE_PATH: '${{ github.workspace }}/terraform-json.json'
