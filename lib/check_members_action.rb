@@ -48,7 +48,7 @@ class CheckMembersAction
     github_output << "filled_seats=#{filled_seats}"
     github_output << "max_seats=#{max_seats}"
     github_output << "members_in_terraform=#{members_in_terraform}"
-    ENV['GITHUB_OUTPUT'] = github_output.join('\n')
+    system("echo \"#{github_output.join('\n')}\" >> \"$GITHUB_OUTPUT\"")
 
     exit
   rescue StandardError => e
